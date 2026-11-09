@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
+---
+<BaseLayout
+  title="Terms and Conditions — KumQuote"
+  description="Terms and Conditions for KumQuote. Last updated 9 November 2026."
+  canonical={`${site}terms-and-conditions/`}
+  currentPath="/terms-and-conditions/"
+>
+  <article class="prose prose-stone max-w-none dark:prose-invert prose-headings:font-display prose-a:text-brand dark:prose-a:text-brand-dark">
+    <h1>Terms and Conditions</h1>
+    <p>Last updated: 9 November 2026. These terms cover KumQuote (kumquote.pages.dev).</p>
+    <h2>Use of the site</h2>
+    <p>KumQuote is a free collection of quotes with short explanations. You may read, copy, and share individual quotes for personal, non-commercial use. When you share a quote, please keep the author's name with it.</p>
+    <h2>Attribution</h2>
+    <p>Quotes are attributed to the best of our knowledge, with a source noted where it is known. Some famous quotes have disputed origins; where a source is not given, it means we could not verify one — not that the attribution is certain. If you spot an error, tell us and we will correct it.</p>
+    <h2>What you may not do</h2>
+    <p>Do not republish the whole collection, scrape the site in bulk, or present the quotes as your own work. Do not use the site for unlawful purposes or try to disrupt it.</p>
+    <h2>Availability</h2>
+    <p>The site is provided "as is", without warranties of any kind. We may change or remove content at any time. We are not liable for any loss arising from use of the site.</p>
+  </article>
+</BaseLayout>

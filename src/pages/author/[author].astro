@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import QuoteCard from '../../components/QuoteCard.astro';
+import { publishedQuotes, authorCounts, authorSlug, authorUrl } from '../../lib/quotes';
+
+export async function getStaticPaths() {
+  const authors = await authorCounts();
+  return authors.map(({ author }) => ({ params: { author: authorSlug(author) }, props: { author } }));
+}
+
+const { author } = Astro.props;
+const quotes = (await publishedQuotes()).filter((q) => authorSlug(q.data.author) === authorSlug(author));
+const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
+---
+<BaseLayout
+  title={`${author} quotes — KumQuote`}
+  description={`Quotes by ${author} on KumQuote — ${quotes.length} ${quotes.length === 1 ? 'quote' : 'quotes'} with the meaning behind each one.`}
+  canonical={`${site}${authorUrl(author).slice(1)}`}
+  currentPath={authorUrl(author)}
+>
+  <h1 class="font-display text-4xl">{author}</h1>
+  <p class="mt-3 text-lg text-stone-600 dark:text-text-dark-3">{quotes.length} {quotes.length === 1 ? 'quote' : 'quotes'}</p>
+  <div class="mt-8 border-t border-stone-200 dark:border-border-dark">
+    {quotes.map((entry) => <QuoteCard entry={entry} />)}
+  </div>
+  <p class="mt-10"><a href="/quotes/" class="flex min-h-[44px] items-center gap-2 font-medium text-brand underline dark:text-brand-dark">← Back to all quotes</a></p>
+</BaseLayout>

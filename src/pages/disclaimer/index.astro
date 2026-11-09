@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
+---
+<BaseLayout
+  title="Disclaimer — KumQuote"
+  description="Disclaimer for KumQuote. Last updated 9 November 2026."
+  canonical={`${site}disclaimer/`}
+  currentPath="/disclaimer/"
+>
+  <article class="prose prose-stone max-w-none dark:prose-invert prose-headings:font-display prose-a:text-brand dark:prose-a:text-brand-dark">
+    <h1>Disclaimer</h1>
+    <p>Last updated: 9 November 2026. This disclaimer covers KumQuote (kumquote.pages.dev).</p>
+    <h2>Quotes are not advice</h2>
+    <p>Quotes on this site are short sayings, often from another time and context. They are not legal, medical, financial, or professional advice. Do not make important decisions based on a quote alone.</p>
+    <h2>Accuracy</h2>
+    <p>We try to attribute every quote correctly and note a source where one is known. Attributions of famous quotes are sometimes disputed, and wordings vary between editions and translations. The meanings given are our own short explanations, not the author's words.</p>
+    <h2>External links</h2>
+    <p>Share links and any external references lead to third-party sites we do not control. We are not responsible for their content or privacy practices.</p>
+  </article>
+</BaseLayout>

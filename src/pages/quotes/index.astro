@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import QuoteCard from '../../components/QuoteCard.astro';
+import { publishedQuotes, categoryCounts, categoryUrl } from '../../lib/quotes';
+
+const quotes = await publishedQuotes();
+const categories = await categoryCounts();
+const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
+---
+<BaseLayout
+  title="All quotes — KumQuote"
+  description={`All ${quotes.length} quotes on KumQuote, newest first — browse by author, category, or tag.`}
+  canonical={`${site}quotes/`}
+  currentPath="/quotes/"
+>
+  <h1 class="font-display text-4xl">All quotes</h1>
+  <p class="mt-3 max-w-[65ch] text-lg text-stone-600 dark:text-text-dark-3">{quotes.length} quotes — newest first.</p>
+
+  {categories.length > 0 && (
+    <ul class="mt-6 flex flex-wrap gap-2">
+      {categories.map(({ category, count }) => (
+        <li><a href={categoryUrl(category)} class="flex min-h-[44px] items-center rounded-md border border-stone-300 px-4 text-sm tabular-nums capitalize dark:border-border-dark-2">{category} ({count})</a></li>
+      ))}
+    </ul>
+  )}
+
+  <div class="mt-8 border-t border-stone-200 dark:border-border-dark">
+    {quotes.map((entry) => <QuoteCard entry={entry} />)}
+  </div>
+</BaseLayout>

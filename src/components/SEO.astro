@@ -1,0 +1,42 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  type?: 'website' | 'quote';
+  publishedTime?: string;
+  updatedTime?: string;
+  image?: string;
+  quotation?: { text: string; author: string };
+}
+
+const { title, description, canonical, type = 'website', publishedTime, updatedTime, image, quotation } = Astro.props;
+const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://kumquote.pages.dev';
+const ogImage = image ? `${site}${image}` : `${site}/og.png`;
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={type === 'quote' ? 'article' : 'website'} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{type === 'quote' && quotation && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Quotation',
+    text: quotation.text,
+    author: { '@type': 'Person', name: quotation.author },
+    isPartOf: { '@type': 'WebSite', name: 'KumQuote', url: site },
+    url: canonical,
+    ...(publishedTime ? { datePublished: publishedTime } : {}),
+    ...(updatedTime ? { dateModified: updatedTime } : {}),
+  })} />
+)}

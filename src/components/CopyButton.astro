@@ -1,0 +1,19 @@
+---
+/* Renders a copy button. The click wiring lives on the page that uses
+   it (one <script> per page, selecting [data-copy-text]) so the same
+   button can appear any number of times without duplicate scripts. */
+interface Props {
+  text: string;
+  label?: string;
+}
+
+const { text, label = 'Copy quote' } = Astro.props;
+const copyText = `“${text}”`;
+---
+<button
+  type="button"
+  data-copy-text={copyText}
+  class="flex min-h-[44px] items-center rounded-lg border border-stone-300 px-4 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark"
+>
+  {label}
+</button>

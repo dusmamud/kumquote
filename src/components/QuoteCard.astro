@@ -1,0 +1,23 @@
+---
+import type { QuoteEntry } from '../lib/quotes';
+import { quoteUrl, authorUrl, categoryUrl, isoDate } from '../lib/quotes';
+
+interface Props {
+  entry: QuoteEntry;
+}
+
+const { entry } = Astro.props;
+const { text, author, category } = entry.data;
+---
+<article class="border-b border-stone-200 py-6 first:pt-0 dark:border-border-dark">
+  <blockquote class="font-display text-2xl leading-snug text-ink dark:text-text-dark">
+    <a href={quoteUrl(entry)} class="transition-colors duration-150 hover:text-brand hover:underline dark:hover:text-brand-dark">“{text}”</a>
+  </blockquote>
+  <p class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-[16px] text-stone-600 dark:text-text-dark-3">
+    <a href={authorUrl(author)} class="font-medium text-brand underline dark:text-brand-dark">{author}</a>
+    <span aria-hidden="true">·</span>
+    <a href={categoryUrl(category)} class="capitalize underline decoration-stone-300 underline-offset-4 hover:text-brand dark:decoration-border-dark-2 dark:hover:text-brand-dark">{category}</a>
+    <span aria-hidden="true">·</span>
+    <time datetime={isoDate(entry.data.pubDate)}>{isoDate(entry.data.pubDate)}</time>
+  </p>
+</article>
