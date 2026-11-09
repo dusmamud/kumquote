@@ -48,7 +48,7 @@ const related = await relatedQuotes(entry, 3);
   <!-- Poster: centred, gold rule, Playfair Bold at poster size. -->
   <article class="mx-auto mt-8 max-w-3xl text-center">
     <span aria-hidden="true" class="mx-auto block h-1 w-12 rounded-full bg-gold"></span>
-    <blockquote class="mt-6 font-display text-3xl font-bold leading-[1.2] tracking-[-0.01em] text-ink sm:text-[40px] dark:text-text-dark">“{text}”</blockquote>
+    <blockquote class="mt-6 font-display text-display-quote font-bold tracking-[-0.01em] text-ink dark:text-text-dark">“{text}”</blockquote>
     <p class="mt-6 text-lg text-muted dark:text-text-dark-3">
       — <a href={authorUrl(author)} class="font-semibold uppercase tracking-[0.08em] text-brand dark:text-brand-dark">{author}</a>
       {authorRole ? `, ${authorRole}` : ''}
@@ -83,7 +83,7 @@ const related = await relatedQuotes(entry, 3);
 
   {related.length > 0 && (
     <section class="mt-14">
-      <h2 class="font-display text-3xl font-bold text-ink dark:text-text-dark">More quotes like this</h2>
+      <h2 class="font-display text-display-h2 font-bold text-ink dark:text-text-dark">More quotes like this</h2>
       <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {related.map((q) => <QuoteCard entry={q} />)}
       </div>

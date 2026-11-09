@@ -18,7 +18,7 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   canonical={`${site}${authorUrl(author).slice(1)}`}
   currentPath={authorUrl(author)}
 >
-  <h1 class="font-display text-4xl font-bold text-ink sm:text-5xl dark:text-text-dark">{author}</h1>
+  <h1 class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">{author}</h1>
   <p class="mt-3 text-lg text-muted dark:text-text-dark-3">{quotes.length} {quotes.length === 1 ? 'quote' : 'quotes'}</p>
   <div class="mt-8 grid gap-5 sm:grid-cols-2">
     {quotes.map((entry) => <QuoteCard entry={entry} />)}

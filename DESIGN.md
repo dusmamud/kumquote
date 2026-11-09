@@ -17,6 +17,27 @@ The site is poster-first, not blog-first. One quote = one poster.
   Display type 3–6× body size. Attribution in letterspaced caps.
 - Removed in v2: @fontsource/instrument-serif.
 
+## Fluid type scale (research-locked 2026-11-09, Exa ×3 + Firecrawl ×1)
+Display sizes are `clamp()` tokens in `global.css` (`--text-display-*`),
+rem bounds so user font settings and 200% zoom keep working (WCAG 1.4.4;
+vw alone would break zoom). No stepped `text-3xl/4xl/5xl` sizes remain
+for display type. Measured px across 320 → 768 → 1440:
+
+| Token | clamp() | px | Used for |
+|---|---|---|---|
+| `--text-display-hero` | clamp(2.5rem, 1.375rem + 4.5vw, 4rem), lh 1.1 | 40 → 58 → 68 | home hero quote |
+| `--text-display-quote` | clamp(2rem, 1.25rem + 3vw, 3.5rem), lh 1.15 | 32 → 44 → 59 | quote page, Random panel |
+| `--text-display-card` | clamp(1.5rem, 1.25rem + 1vw, 1.875rem), lh 1.25 | 24 → 29 → 32 | poster cards |
+| `--text-display-h1` | clamp(2rem, 1.5rem + 2vw, 3rem), lh 1.1 | 32 → 41 → 51 | page titles |
+| `--text-display-h2` | clamp(1.75rem, 1.5rem + 1vw, 2.25rem), lh 1.2 | 28 → 33 → 38 | section titles |
+
+Widths in `ch`, never px: hero quote `max-w-[26ch]` (verified: 26ch =
+1144px at 68px Playfair Bold), body/prose `max-w-[65ch]` (45–75ch ideal,
+66ch ideal per Bringhurst). All quote blockquotes use
+`text-wrap: balance`. Body stays 16px mobile / 17px desktop, never below
+16px. Buttons/meta 15px, eyebrow 13px caps, footer 20px, wordmark 22px,
+menu links 32px — all inside research ranges, unchanged.
+
 ## Palette — 60-30-10, one accent (gold)
 | Role | Light | Dark |
 |---|---|---|
@@ -39,15 +60,19 @@ reduced-motion respected, focus ring never removed.
 ## Layout
 - **Header:** one slim sticky bar (64px). Navy-square + gold “ logo,
   Playfair Bold wordmark, nav Home / Quotes / Random, theme toggle
-  (System/Light/Dark) in the bar, Search button = navy fill. No utility
-  bar, no italic tagline. Mobile menu = full-screen dialog, big Playfair
-  links, focus trapped.
+  (System/Light/Dark) in the bar on desktop only — on mobile the toggle
+  lives inside the hamburger menu (bottom row, next to RSS); both buttons
+  share one state. Search button = navy fill. No utility bar, no italic
+  tagline. Mobile menu = full-screen dialog, big Playfair links, focus
+  trapped.
 - **Home hero:** Quote of the Day as a full navy poster panel
-  (rounded-2xl): gold eyebrow, Playfair Bold 48–64px ivory quote, gold
-  author line, gold "Browse all quotes" button, ivory-outline "Random".
+  (rounded-2xl): gold eyebrow, Playfair Bold fluid 40–68px ivory quote
+  (max-w 26ch), gold author line, gold "Browse all quotes" button,
+  ivory-outline "Random".
 - **Quote lists:** 2-col grid of poster cards (white surface, 4px gold
-  top rule, Playfair Bold 26px quote, author in caps, category + date).
-- **Quote page:** centred poster — gold rule, Playfair Bold 40px,
+  top rule, Playfair Bold fluid 24–32px quote, author in caps, category
+  + date).
+- **Quote page:** centred poster — gold rule, Playfair Bold fluid 32–59px,
   author caps, Copy / Share on X / WhatsApp, "What it means" (Inter),
   tags, related posters.
 - **Random page:** same navy poster panel; press **N** for another quote.

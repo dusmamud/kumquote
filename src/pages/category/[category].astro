@@ -19,7 +19,7 @@ const label = category.charAt(0).toUpperCase() + category.slice(1);
   canonical={`${site}${categoryUrl(category).slice(1)}`}
   currentPath={categoryUrl(category)}
 >
-  <h1 class="font-display text-4xl font-bold capitalize text-ink sm:text-5xl dark:text-text-dark">{category} quotes</h1>
+  <h1 class="font-display text-display-h1 font-bold capitalize text-ink dark:text-text-dark">{category} quotes</h1>
   <p class="mt-3 text-lg text-muted dark:text-text-dark-3">{quotes.length} {quotes.length === 1 ? 'quote' : 'quotes'}</p>
   <div class="mt-8 grid gap-5 sm:grid-cols-2">
     {quotes.map((entry) => <QuoteCard entry={entry} />)}

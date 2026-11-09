@@ -9,12 +9,12 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   canonical={`${site}random/`}
   currentPath="/random/"
 >
-  <h1 class="font-display text-4xl font-bold text-ink dark:text-text-dark">Random quote</h1>
+  <h1 class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">Random quote</h1>
   <p class="mt-3 max-w-[65ch] text-lg leading-relaxed text-muted dark:text-text-dark-3">A static site has no server to pick a random quote, so this page picks one in your browser from the full quote list.</p>
 
   <div class="mt-8 rounded-2xl bg-ink px-6 py-10 text-cream sm:px-10 sm:py-12 dark:border dark:border-border-dark dark:bg-surface-dark">
     <span aria-hidden="true" class="block h-1 w-12 rounded-full bg-gold"></span>
-    <blockquote id="random-text" class="mt-5 font-display text-3xl font-bold leading-[1.2] tracking-[-0.01em] sm:text-4xl">Loading a quote…</blockquote>
+    <blockquote id="random-text" class="mt-5 font-display text-display-quote font-bold tracking-[-0.01em]">Loading a quote…</blockquote>
     <p class="mt-5 text-lg">
       — <a id="random-author" href="/quotes/" class="font-semibold text-gold-light underline decoration-gold-light/50 underline-offset-4">…</a>
       <span id="random-category" class="ms-2 text-[15px] capitalize text-cream/70"></span>
