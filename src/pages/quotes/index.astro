@@ -13,18 +13,18 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   canonical={`${site}quotes/`}
   currentPath="/quotes/"
 >
-  <h1 class="font-display text-4xl">All quotes</h1>
-  <p class="mt-3 max-w-[65ch] text-lg text-stone-600 dark:text-text-dark-3">{quotes.length} quotes — newest first.</p>
+  <h1 class="font-display text-4xl font-bold text-ink sm:text-5xl dark:text-text-dark">All quotes</h1>
+  <p class="mt-3 max-w-[65ch] text-lg text-muted dark:text-text-dark-3">{quotes.length} quotes — newest first.</p>
 
   {categories.length > 0 && (
     <ul class="mt-6 flex flex-wrap gap-2">
       {categories.map(({ category, count }) => (
-        <li><a href={categoryUrl(category)} class="flex min-h-[44px] items-center rounded-md border border-stone-300 px-4 text-sm tabular-nums capitalize dark:border-border-dark-2">{category} ({count})</a></li>
+        <li><a href={categoryUrl(category)} class="flex min-h-[44px] items-center rounded-md border border-border bg-surface px-4 text-sm font-medium tabular-nums capitalize transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:bg-surface-dark dark:hover:border-brand-dark dark:hover:text-brand-dark">{category} ({count})</a></li>
       ))}
     </ul>
   )}
 
-  <div class="mt-8 border-t border-stone-200 dark:border-border-dark">
+  <div class="mt-8 grid gap-5 sm:grid-cols-2">
     {quotes.map((entry) => <QuoteCard entry={entry} />)}
   </div>
 </BaseLayout>

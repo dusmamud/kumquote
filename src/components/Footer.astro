@@ -2,23 +2,27 @@
 import { categoryCounts } from '../lib/quotes';
 
 const categories = (await categoryCounts()).slice(0, 6);
-const linkClass = 'flex min-h-[44px] items-center gap-2 text-[17px] text-stone-700 transition-colors duration-150 hover:text-brand dark:text-text-dark-2 dark:hover:text-brand-dark';
+/* Footer is a navy block in BOTH modes (light: ink on ivory page;
+   dark: surface navy on tinted-navy page), so its text is cream and
+   its links are light gold — both pass 4.5:1 on navy. */
+const linkClass = 'flex min-h-[44px] items-center gap-2 text-[16px] text-cream/80 transition-colors duration-150 hover:text-gold-light';
 ---
 
-<!-- Footer: grid, then a separate Back to top row, then the copyright
-     row below it. One Back to top link in the whole footer. -->
-<footer class="mt-12 border-t border-stone-200 bg-white px-4 py-12 dark:border-border-dark dark:bg-surface-dark">
+<!-- Footer v2: navy poster block, then a separate Back to top row,
+     then the copyright row below it. One Back to top link in the
+     whole footer. -->
+<footer class="mt-12 bg-ink px-4 py-12 text-cream dark:bg-surface-dark">
   <div class="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-5">
     <div class="col-span-2 lg:col-span-1">
       <a href="/" class="flex min-h-[44px] items-center gap-2.5" aria-label="KumQuote — home">
         <img src="/favicon.svg" alt="" aria-hidden="true" width="36" height="36" class="size-9 shrink-0" />
-        <span class="font-display text-[22px] leading-none tracking-tight text-ink dark:text-text-dark">KumQuote</span>
+        <span class="font-display text-[22px] font-bold leading-none tracking-tight text-cream">KumQuote</span>
       </a>
-      <p class="mt-4 max-w-[45ch] text-[17px] leading-relaxed text-stone-600 dark:text-text-dark-3">Quotes worth remembering — with the meaning behind them, not just the words.</p>
+      <p class="mt-4 max-w-[45ch] text-[16px] leading-relaxed text-cream/75">Quotes worth remembering — with the meaning behind them, not just the words.</p>
     </div>
 
     <nav aria-label="Explore">
-      <h2 class="font-display text-[22px] text-ink dark:text-text-dark">Explore</h2>
+      <h2 class="font-display text-[20px] font-bold text-cream">Explore</h2>
       <ul class="mt-4">
         <li><a href="/" class={linkClass}>Home</a></li>
         <li><a href="/quotes/" class={linkClass}>All quotes</a></li>
@@ -28,16 +32,16 @@ const linkClass = 'flex min-h-[44px] items-center gap-2 text-[17px] text-stone-7
     </nav>
 
     <nav aria-label="Categories">
-      <h2 class="font-display text-[22px] text-ink dark:text-text-dark">Categories</h2>
+      <h2 class="font-display text-[20px] font-bold text-cream">Categories</h2>
       <ul class="mt-4">
         {categories.map(({ category, count }) => (
-          <li><a href={`/category/${category}/`} class={linkClass}><span class="capitalize">{category}</span><span class="text-sm text-stone-500 dark:text-text-dark-3">({count})</span></a></li>
+          <li><a href={`/category/${category}/`} class={linkClass}><span class="capitalize">{category}</span><span class="text-sm text-cream/60">({count})</span></a></li>
         ))}
       </ul>
     </nav>
 
     <nav aria-label="Follow">
-      <h2 class="font-display text-[22px] text-ink dark:text-text-dark">Follow</h2>
+      <h2 class="font-display text-[20px] font-bold text-cream">Follow</h2>
       <ul class="mt-4">
         <li><a href="/rss.xml" class={linkClass}>RSS</a></li>
         <li><a href="/sitemap.xml" class={linkClass}>Sitemap</a></li>
@@ -45,7 +49,7 @@ const linkClass = 'flex min-h-[44px] items-center gap-2 text-[17px] text-stone-7
     </nav>
 
     <nav aria-label="Legal">
-      <h2 class="font-display text-[22px] text-ink dark:text-text-dark">Legal</h2>
+      <h2 class="font-display text-[20px] font-bold text-cream">Legal</h2>
       <ul class="mt-4">
         <li><a href="/privacy-policy/" class={linkClass}>Privacy Policy</a></li>
         <li><a href="/terms-and-conditions/" class={linkClass}>Terms and Conditions</a></li>
@@ -54,8 +58,8 @@ const linkClass = 'flex min-h-[44px] items-center gap-2 text-[17px] text-stone-7
     </nav>
   </div>
 
-  <div class="mx-auto mt-12 flex max-w-6xl justify-end border-t border-stone-200 pt-6 dark:border-border-dark">
-    <a href="#top" class="flex min-h-[44px] items-center gap-2 font-medium text-brand underline dark:text-brand-dark">Back to top ↑</a>
+  <div class="mx-auto mt-12 flex max-w-6xl justify-end border-t border-cream/15 pt-6">
+    <a href="#top" class="flex min-h-[44px] items-center gap-2 font-semibold text-gold-light underline">Back to top ↑</a>
   </div>
-  <p class="mt-6 text-center text-sm text-stone-500 dark:text-text-dark-3">© {new Date().getFullYear()} KumQuote, kumquote.pages.dev</p>
+  <p class="mt-6 text-center text-sm text-cream/60">© {new Date().getFullYear()} KumQuote, kumquote.pages.dev</p>
 </footer>

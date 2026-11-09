@@ -9,10 +9,10 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   canonical={site}
   currentPath="/404/"
 >
-  <h1 class="font-display text-4xl">Page not found</h1>
-  <p class="mt-4 max-w-[65ch] text-lg leading-relaxed text-stone-600 dark:text-text-dark-3">That quote, author, or page does not exist — it may have moved, or the link may have a typo.</p>
+  <h1 class="font-display text-4xl font-bold text-ink dark:text-text-dark">Page not found</h1>
+  <p class="mt-4 max-w-[65ch] text-lg leading-relaxed text-muted dark:text-text-dark-3">That quote, author, or page does not exist — it may have moved, or the link may have a typo.</p>
   <p class="mt-6 flex flex-wrap gap-3">
-    <a href="/" class="flex min-h-[44px] items-center rounded-lg bg-brand px-5 text-[15px] text-white transition-opacity duration-150 hover:opacity-90 dark:bg-brand-dark dark:text-paper-dark">Go home</a>
-    <a href="/quotes/" class="flex min-h-[44px] items-center rounded-lg border border-stone-300 px-5 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Browse all quotes</a>
+    <a href="/" class="flex min-h-[44px] items-center rounded-lg bg-ink px-5 text-[15px] font-semibold text-cream transition-opacity duration-150 hover:opacity-90 dark:bg-brand-dark dark:text-paper-dark">Go home</a>
+    <a href="/quotes/" class="flex min-h-[44px] items-center rounded-lg border border-border px-5 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Browse all quotes</a>
   </p>
 </BaseLayout>

@@ -14,36 +14,42 @@
 
 /* Tailwind v4: dark mode follows the .dark class, not only the OS.
    The .dark class is set before paint by the inline theme script in
-   BaseLayout (System / Light / Dark — see src/lib/theme.ts comment
-   in BaseLayout.astro). */
+   BaseLayout (System / Light / Dark). */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Instrument Serif for English everywhere. It ships only weight 400
-     (+ italic), so hierarchy comes from size, spacing and colour —
-     never from font-bold, which would be synthesised faux bold. */
-  --font-sans: "Instrument Serif", Georgia, serif;
-  --font-display: "Instrument Serif", Georgia, serif;
-  /* Editorial palette: newsprint #fbf8f3, headline black #1a1a1a,
-     link blue #2c5f8a = 6.37:1 on newsprint (AA). */
-  --color-paper: #fbf8f3;
-  --color-ink: #1a1a1a;
-  --color-text-dark: #f7f8f8;
-  --color-text-dark-2: #d0d6e0;
-  --color-text-dark-3: #8a8f98;
-  /* DARK GRADING — SaaS style (Linear): bg #08090a, surface #0f1011,
-     surface-2 #141516, border #23252a (1px hairline, no drop shadow
-     on resting cards), text #f7f8f8 / #d0d6e0 / #8a8f98, accent
-     Linear info blue #4ea7fc. */
-  --color-paper-dark: #08090a;
-  --color-surface-dark: #0f1011;
-  --color-surface-dark-2: #141516;
-  --color-border-dark: #23252a;
-  --color-border-dark-2: #34343a;
-  --color-brand: #2c5f8a;
-  --color-brand-soft: #e8eff5;
-  --color-brand-dark: #4ea7fc;
-  --color-brand-dark-soft: #101e2e;
+  /* v2 — "Ink & Gold Poster" (research-locked 2026-11-09).
+     Two-font system: Playfair Display for the quote itself, Inter for
+     UI/body/author. Playfair has real 700/900 faces, so bold display
+     type is real weight, never synthesised. */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
+  /* Palette — 60-30-10, one accent (gold). Light: ivory page #FBF8F1,
+     deep navy ink #101C36, warm gold #C19A4B. Gold is marks, rules and
+     fills only — never body/link text in light mode (2.4:1, fails).
+     Text-safe accent is deep bronze #8A6D2B (4.5:1+ on ivory). */
+  --color-paper: #fbf8f1;
+  --color-surface: #ffffff;
+  --color-ink: #101c36;
+  --color-cream: #f2ead9;
+  --color-muted: #6b645a;
+  --color-border: #e5ded2;
+  --color-gold: #c19a4b;
+  --color-gold-light: #d8b56e;
+  --color-brand: #8a6d2b;
+  --color-brand-soft: #f3ead8;
+  --color-brand-dark: #d8b56e;
+  --color-brand-dark-soft: #1a2a44;
+  /* DARK — designed on purpose, not inverted: tinted navy bg #0B1526,
+     navy surface #101C36, ivory text #F2EAD9, lighter gold accent. */
+  --color-paper-dark: #0b1526;
+  --color-surface-dark: #101c36;
+  --color-surface-dark-2: #16233a;
+  --color-border-dark: #24344f;
+  --color-border-dark-2: #33445f;
+  --color-text-dark: #f2ead9;
+  --color-text-dark-2: #d8d2c4;
+  --color-text-dark-3: #a8a294;
   /* Motion tokens: durations/easings are tokens, never literals. */
   --dur-fast: 150ms;
   --dur-base: 250ms;
@@ -51,15 +57,15 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Serif needs a larger root size: 17px mobile, 18px desktop. */
+/* Inter reads smaller than a serif: 16px mobile, 17px desktop. */
 html {
-  font-size: 17px;
+  font-size: 16px;
   scroll-behavior: smooth;
   color-scheme: light;
 }
 @media (min-width: 768px) {
   html {
-    font-size: 18px;
+    font-size: 17px;
   }
 }
 
@@ -68,8 +74,6 @@ html.dark {
 }
 
 body {
-  /* Headings are 400 (Unslop polish): hierarchy from size, spacing
-     and colour, never synthesised weight. */
   font-synthesis-weight: auto;
   line-height: 1.65;
   transition: background-color var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
@@ -92,8 +96,8 @@ html.dark :focus-visible {
   top: -100px;
   z-index: 50;
   padding: 0.5rem 1rem;
-  background: #1a1a1a;
-  color: #fff;
+  background: #101c36;
+  color: #f2ead9;
 }
 .skip-link:focus {
   top: 1rem;
@@ -115,12 +119,12 @@ b {
 }
 
 /* Headings: balance the lines, never leave a one-word last line.
-   Paragraphs: pretty wrapping. */
+   Weight is NOT forced here — page classes set it (Playfair has real
+   700/900, so font-bold is real weight). Paragraphs: pretty wrapping. */
 h1,
 h2,
 h3 {
   text-wrap: balance;
-  font-weight: 400;
 }
 p {
   text-wrap: pretty;
@@ -215,7 +219,7 @@ a:hover .link-underline {
 }
 
 /* Full-screen mobile menu: fade + slight rise, transform/opacity only.
-   Links stagger in on open (60/120/180ms); close is immediate. */
+   Links stagger in on open (60/120/180/240ms); close is immediate. */
 .mobile-menu {
   opacity: 0;
   transform: translateY(12px);
@@ -247,6 +251,9 @@ a:hover .link-underline {
 .mobile-menu[data-open="true"] .menu-link:nth-child(3) {
   transition-delay: 180ms;
 }
+.mobile-menu[data-open="true"] .menu-link:nth-child(4) {
+  transition-delay: 240ms;
+}
 .menu-bar {
   transition:
     transform var(--dur-base) var(--ease-out),
@@ -254,10 +261,10 @@ a:hover .link-underline {
 }
 
 /* Touch: manipulation removes the double-tap zoom delay; tap
-   highlight is a subtle brand tint, not the default grey flash. */
+   highlight is a subtle gold tint, not the default grey flash. */
 a, button {
   touch-action: manipulation;
-  -webkit-tap-highlight-color: rgba(44, 95, 138, 0.18);
+  -webkit-tap-highlight-color: rgba(193, 154, 75, 0.18);
 }
 .mobile-menu {
   overscroll-behavior: contain;

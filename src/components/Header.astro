@@ -6,6 +6,7 @@ interface Props {
 const { currentPath } = Astro.props;
 const home = '/';
 const quotes = '/quotes/';
+const random = '/random/';
 const search = '/search/';
 const rss = '/rss.xml';
 const isCurrent = (href: string) =>
@@ -13,58 +14,49 @@ const isCurrent = (href: string) =>
   currentPath === href.replace(/\/$/, '') ||
   (href !== home && currentPath.startsWith(href));
 const desktopLink = (href: string) =>
-  `flex min-h-[44px] items-center px-1 text-[17px] transition-colors duration-150 ${
+  `flex min-h-[44px] items-center px-1 text-[16px] font-medium transition-colors duration-150 ${
     isCurrent(href)
       ? 'text-brand underline decoration-2 underline-offset-8 dark:text-brand-dark'
-      : 'text-stone-700 hover:text-brand dark:text-text-dark-2 dark:hover:text-brand-dark'
+      : 'text-muted hover:text-ink dark:text-text-dark-2 dark:hover:text-brand-dark'
   }`;
-const utilityClass = 'flex min-h-[44px] items-center text-[15px] text-stone-600 transition-colors duration-150 hover:text-brand dark:text-text-dark-3 dark:hover:text-brand-dark';
+const themeBtnClass = 'flex min-h-[44px] items-center gap-1.5 text-[15px] font-medium text-muted transition-colors duration-150 hover:text-ink dark:text-text-dark-3 dark:hover:text-brand-dark';
 ---
 
-<!-- Header: utility bar above (RSS + theme, scrolls away), sticky main
-     bar 56px, solid and opaque — no backdrop-blur, so content never
-     bleeds through. Desktop nav always visible; hamburger is
+<!-- Header v2: one slim sticky bar (64px), solid and opaque — no
+     backdrop-blur, so content never bleeds through. No utility bar:
+     the theme toggle lives in the bar itself, RSS lives in the mobile
+     menu and footer. Desktop nav always visible; hamburger is
      mobile-only. Every target >= 44px. -->
-<div class="border-b border-stone-200 bg-paper dark:border-border-dark dark:bg-paper-dark">
-  <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-1 sm:px-6">
-    <p class="hidden min-h-[36px] items-center text-[15px] italic text-stone-500 dark:text-text-dark-3 sm:flex">
-      Quotes worth remembering
-    </p>
-    <nav aria-label="Utility navigation" class="ms-auto flex items-center gap-4">
-      <a href={rss} class={utilityClass}>RSS</a>
-      <!-- Theme: System / Light / Dark. The button shows the CURRENT
-           mode; clicking cycles System -> Light -> Dark -> System.
-           Stored in localStorage as 'kumquote-theme'. -->
-      <button
-        type="button"
-        id="theme-toggle"
-        aria-label="Theme: System. Activate to switch to Light."
-        aria-pressed="false"
-        class="flex min-h-[44px] items-center gap-1.5 text-[15px] text-stone-600 transition-colors duration-150 hover:text-brand dark:text-text-dark-3 dark:hover:text-brand-dark"
-      >
-        <svg aria-hidden="true" class="theme-icon inline-block transition-transform duration-250" width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M10 2a8 8 0 0 1 0 16z" fill="currentColor"/></svg>
-        <span class="theme-label">System</span>
-      </button>
-    </nav>
-  </div>
-</div>
-
 <div id="header-sentinel" aria-hidden="true" class="h-px"></div>
-<header id="site-header" class="sticky top-0 z-40 border-b border-stone-200 bg-paper dark:border-border-dark dark:bg-surface-dark">
+<header id="site-header" class="sticky top-0 z-40 border-b border-border bg-paper dark:border-border-dark dark:bg-paper-dark">
   <div class="mx-auto max-w-6xl px-4 sm:px-6">
-    <div class="flex min-h-[56px] items-center gap-3">
+    <div class="flex min-h-[64px] items-center gap-3">
       <a href={home} class="flex min-h-[44px] shrink-0 items-center gap-2.5" aria-label="KumQuote — home">
         <img src="/favicon.svg" alt="" aria-hidden="true" width="36" height="36" class="size-9 shrink-0" />
-        <span class="font-display text-[22px] leading-none tracking-tight text-ink dark:text-text-dark">KumQuote</span>
+        <span class="font-display text-[22px] font-bold leading-none tracking-tight text-ink dark:text-text-dark">KumQuote</span>
       </a>
 
       <nav aria-label="Primary navigation" class="ms-6 hidden items-center gap-6 sm:flex">
         <a href={home} aria-current={isCurrent(home) ? 'page' : undefined} class={desktopLink(home)}><span class="link-underline">Home</span></a>
         <a href={quotes} aria-current={isCurrent(quotes) ? 'page' : undefined} class={desktopLink(quotes)}><span class="link-underline">Quotes</span></a>
+        <a href={random} aria-current={isCurrent(random) ? 'page' : undefined} class={desktopLink(random)}><span class="link-underline">Random</span></a>
       </nav>
 
-      <div class="ms-auto flex items-center gap-2">
-        <a href={search} aria-current={isCurrent(search) ? 'page' : undefined} class="hidden min-h-[44px] items-center rounded-lg bg-brand px-4 text-[16px] font-medium text-white transition-opacity duration-150 hover:opacity-90 dark:bg-brand-dark dark:text-paper-dark sm:flex">
+      <div class="ms-auto flex items-center gap-1 sm:gap-2">
+        <!-- Theme: System / Light / Dark. The button shows the CURRENT
+             mode; clicking cycles System -> Light -> Dark -> System.
+             Stored in localStorage as 'kumquote-theme'. -->
+        <button
+          type="button"
+          id="theme-toggle"
+          aria-label="Theme: System. Activate to switch to Light."
+          aria-pressed="false"
+          class={themeBtnClass}
+        >
+          <svg aria-hidden="true" class="theme-icon inline-block transition-transform duration-250" width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M10 2a8 8 0 0 1 0 16z" fill="currentColor"/></svg>
+          <span class="theme-label">System</span>
+        </button>
+        <a href={search} aria-current={isCurrent(search) ? 'page' : undefined} class="hidden min-h-[44px] items-center rounded-lg bg-ink px-4 text-[15px] font-semibold text-cream transition-opacity duration-150 hover:opacity-90 dark:bg-brand-dark dark:text-paper-dark sm:flex">
           Search
         </a>
         <button
@@ -75,7 +67,7 @@ const utilityClass = 'flex min-h-[44px] items-center text-[15px] text-stone-600 
           aria-label="Menu"
           data-menu-label="Menu"
           data-close-label="Close"
-          class="flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1.5 rounded-lg border border-stone-300 px-3 dark:border-border-dark-2 sm:hidden"
+          class="flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1.5 rounded-lg border border-border px-3 dark:border-border-dark-2 sm:hidden"
         >
           <span aria-hidden="true" class="menu-bar block h-[2px] w-5 bg-current transition-transform duration-250"></span>
           <span aria-hidden="true" class="menu-bar block h-[2px] w-5 bg-current transition-transform duration-250"></span>
@@ -98,30 +90,31 @@ const utilityClass = 'flex min-h-[44px] items-center text-[15px] text-stone-600 
   aria-modal="true"
   aria-label="Mobile navigation"
   data-open="false"
-  class="mobile-menu fixed inset-0 z-50 hidden flex-col bg-paper dark:bg-surface-dark sm:hidden"
+  class="mobile-menu fixed inset-0 z-50 hidden flex-col bg-paper dark:bg-paper-dark sm:hidden"
 >
-  <div class="mx-auto flex min-h-[56px] w-full max-w-6xl items-center justify-between gap-3 px-4">
+  <div class="mx-auto flex min-h-[64px] w-full max-w-6xl items-center justify-between gap-3 px-4">
     <span class="flex items-center gap-2.5">
       <img src="/favicon.svg" alt="" aria-hidden="true" width="36" height="36" class="size-9 shrink-0" />
-      <span class="font-display text-[22px] leading-none tracking-tight text-ink dark:text-text-dark">KumQuote</span>
+      <span class="font-display text-[22px] font-bold leading-none tracking-tight text-ink dark:text-text-dark">KumQuote</span>
     </span>
     <button
       type="button"
       id="menu-close"
       aria-label="Close"
-      class="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg border border-stone-300 dark:border-border-dark-2"
+      class="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg border border-border dark:border-border-dark-2"
     >
       <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
     </button>
   </div>
   <nav aria-label="Primary navigation" class="mx-auto w-full max-w-6xl flex-1 px-4 pt-6">
-    <a href={home} aria-current={isCurrent(home) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-stone-200 font-display text-[28px] dark:border-border-dark">Home</a>
-    <a href={quotes} aria-current={isCurrent(quotes) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-stone-200 font-display text-[28px] dark:border-border-dark">Quotes</a>
-    <a href={search} aria-current={isCurrent(search) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-stone-200 font-display text-[28px] dark:border-border-dark">Search</a>
+    <a href={home} aria-current={isCurrent(home) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Home</a>
+    <a href={quotes} aria-current={isCurrent(quotes) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Quotes</a>
+    <a href={random} aria-current={isCurrent(random) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Random</a>
+    <a href={search} aria-current={isCurrent(search) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Search</a>
   </nav>
   <div class="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-6 px-4 pb-8">
-    <a href={rss} class="flex min-h-[44px] items-center text-[16px] text-stone-600 dark:text-text-dark-3">RSS</a>
-    <p class="w-full text-[15px] italic text-stone-500 dark:text-text-dark-3">Quotes worth remembering</p>
+    <a href={rss} class="flex min-h-[44px] items-center text-[16px] font-medium text-muted dark:text-text-dark-3">RSS</a>
+    <p class="w-full text-[15px] text-muted dark:text-text-dark-3">Quotes worth remembering</p>
   </div>
 </div>
 

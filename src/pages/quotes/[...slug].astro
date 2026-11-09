@@ -35,44 +35,46 @@ const related = await relatedQuotes(entry, 3);
   quotation={{ text, author }}
   currentPath={quoteUrl(entry)}
 >
-  <nav aria-label="Breadcrumb" class="text-sm text-stone-500 dark:text-text-dark-3">
+  <nav aria-label="Breadcrumb" class="text-sm text-muted dark:text-text-dark-3">
     <ol class="flex flex-wrap items-center gap-2">
-      <li><a href="/" class="flex min-h-[44px] items-center font-medium text-brand underline dark:text-brand-dark">Home</a></li>
+      <li><a href="/" class="flex min-h-[44px] items-center font-semibold text-brand underline dark:text-brand-dark">Home</a></li>
       <li aria-hidden="true">/</li>
-      <li><a href="/quotes/" class="flex min-h-[44px] items-center font-medium text-brand underline dark:text-brand-dark">Quotes</a></li>
+      <li><a href="/quotes/" class="flex min-h-[44px] items-center font-semibold text-brand underline dark:text-brand-dark">Quotes</a></li>
       <li aria-hidden="true">/</li>
-      <li><a href={categoryUrl(category)} class="flex min-h-[44px] items-center font-medium capitalize text-brand underline dark:text-brand-dark">{category}</a></li>
+      <li><a href={categoryUrl(category)} class="flex min-h-[44px] items-center font-semibold capitalize text-brand underline dark:text-brand-dark">{category}</a></li>
     </ol>
   </nav>
 
-  <article class="mt-6">
-    <blockquote class="font-display text-3xl leading-snug text-ink sm:text-4xl dark:text-text-dark">“{text}”</blockquote>
-    <p class="mt-4 text-lg text-stone-600 dark:text-text-dark-3">
-      — <a href={authorUrl(author)} class="font-medium text-brand underline dark:text-brand-dark">{author}</a>
+  <!-- Poster: centred, gold rule, Playfair Bold at poster size. -->
+  <article class="mx-auto mt-8 max-w-3xl text-center">
+    <span aria-hidden="true" class="mx-auto block h-1 w-12 rounded-full bg-gold"></span>
+    <blockquote class="mt-6 font-display text-3xl font-bold leading-[1.2] tracking-[-0.01em] text-ink sm:text-[40px] dark:text-text-dark">“{text}”</blockquote>
+    <p class="mt-6 text-lg text-muted dark:text-text-dark-3">
+      — <a href={authorUrl(author)} class="font-semibold uppercase tracking-[0.08em] text-brand dark:text-brand-dark">{author}</a>
       {authorRole ? `, ${authorRole}` : ''}
-      {source ? <span class="block text-[15px] text-stone-500 dark:text-text-dark-3">Source: {source}</span> : ''}
+      {source ? <span class="mt-1 block text-[15px] text-muted dark:text-text-dark-3">Source: {source}</span> : ''}
     </p>
-    <p class="mt-2 text-sm text-stone-500 dark:text-text-dark-3">
+    <p class="mt-2 text-sm text-muted dark:text-text-dark-3">
       Published <time datetime={isoDate(entry.data.pubDate)}>{isoDate(entry.data.pubDate)}</time>
     </p>
 
-    <div class="mt-6 flex flex-wrap gap-3">
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
       <CopyButton text={text} />
-      <a href={xShare} target="_blank" rel="noopener noreferrer" class="flex min-h-[44px] items-center rounded-lg border border-stone-300 px-4 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Share on X</a>
-      <a href={waShare} target="_blank" rel="noopener noreferrer" class="flex min-h-[44px] items-center rounded-lg border border-stone-300 px-4 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Share on WhatsApp</a>
+      <a href={xShare} target="_blank" rel="noopener noreferrer" class="flex min-h-[44px] items-center rounded-lg border border-border px-4 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Share on X</a>
+      <a href={waShare} target="_blank" rel="noopener noreferrer" class="flex min-h-[44px] items-center rounded-lg border border-border px-4 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Share on WhatsApp</a>
     </div>
 
-    <div class="prose prose-stone mt-10 max-w-none dark:prose-invert prose-headings:font-display prose-a:text-brand dark:prose-a:text-brand-dark">
+    <div class="prose prose-stone mt-12 max-w-none text-left dark:prose-invert prose-headings:font-display prose-a:text-brand dark:prose-a:text-brand-dark">
       <h2>What it means</h2>
       <Content />
     </div>
 
     {tags.length > 0 && (
-      <div class="mt-10">
-        <h2 class="text-sm text-ink dark:text-text-dark">Tags</h2>
+      <div class="mt-10 text-left">
+        <h2 class="text-sm font-semibold uppercase tracking-[0.12em] text-muted dark:text-text-dark-3">Tags</h2>
         <ul class="mt-3 flex flex-wrap gap-2">
           {tags.map((tag) => (
-            <li><a href={tagUrl(tag)} class="flex min-h-[44px] items-center rounded-md border border-stone-300 px-4 text-sm dark:border-border-dark-2">{tag}</a></li>
+            <li><a href={tagUrl(tag)} class="flex min-h-[44px] items-center rounded-md border border-border bg-surface px-4 text-sm font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:bg-surface-dark dark:hover:border-brand-dark dark:hover:text-brand-dark">{tag}</a></li>
           ))}
         </ul>
       </div>
@@ -80,15 +82,15 @@ const related = await relatedQuotes(entry, 3);
   </article>
 
   {related.length > 0 && (
-    <section class="mt-12">
-      <h2 class="font-display text-3xl">More quotes like this</h2>
-      <div class="mt-6 border-t border-stone-200 dark:border-border-dark">
+    <section class="mt-14">
+      <h2 class="font-display text-3xl font-bold text-ink dark:text-text-dark">More quotes like this</h2>
+      <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {related.map((q) => <QuoteCard entry={q} />)}
       </div>
     </section>
   )}
 
-  <p class="mt-10"><a href="/quotes/" class="flex min-h-[44px] items-center gap-2 font-medium text-brand underline dark:text-brand-dark">← Back to all quotes</a></p>
+  <p class="mt-10"><a href="/quotes/" class="flex min-h-[44px] items-center gap-2 font-semibold text-brand underline dark:text-brand-dark">← Back to all quotes</a></p>
 
   <script>
     // Copy buttons: clipboard API with a textarea fallback. The label

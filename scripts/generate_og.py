@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Generate missing KumQuote OG images (1200x630), missing-only.
 
-Cards: paper background, blue eyebrow bar + KUMQUOTE, the quote text
-in serif, author below, footer line. Titles/text come from each
-quote's own frontmatter, so nothing is invented.
+Cards (v2 — Ink & Gold Poster): deep navy background, gold eyebrow
+bar + KUMQUOTE, the quote text in ivory serif, author in light gold,
+footer line. Titles/text come from each quote's own frontmatter, so
+nothing is invented.
 
 Fonts: DejaVu Serif (Bold + regular), present on Ubuntu by default
 (fonts-dejavu-core) and on the GitHub Actions ubuntu-latest runner.
@@ -28,11 +29,12 @@ BASE = pathlib.Path(__file__).resolve().parent.parent
 OG_DIR = BASE / "public" / "og"
 QUOTES_DIR = BASE / "src" / "content" / "quotes"
 
-BLUE = (44, 95, 138)
-INK = (26, 26, 26)
-MUTED = (74, 74, 74)
-PAPER = (251, 248, 243)
-HAIRLINE = (210, 205, 195)
+NAVY = (16, 28, 54)
+IVORY = (242, 234, 217)
+GOLD = (193, 154, 75)
+GOLD_LIGHT = (216, 181, 110)
+CREAM_DIM = (168, 162, 148)
+HAIRLINE = (36, 52, 79)
 
 
 def find_font(bold=False):
@@ -63,26 +65,26 @@ def wrap(draw, text, font, max_width):
 
 
 def render_card(text, author, out_path):
-    img = Image.new("RGB", (W, H), PAPER)
+    img = Image.new("RGB", (W, H), NAVY)
     draw = ImageDraw.Draw(img)
     # Eyebrow bar + wordmark.
-    draw.rectangle([80, 64, 140, 72], fill=BLUE)
+    draw.rectangle([80, 64, 140, 72], fill=GOLD)
     eyebrow = ImageFont.truetype(find_font(bold=True), 30)
-    draw.text((160, 48), "KUMQUOTE", font=eyebrow, fill=BLUE)
+    draw.text((160, 48), "KUMQUOTE", font=eyebrow, fill=GOLD)
     # Quote text, wrapped, max 5 lines.
     quote_font = ImageFont.truetype(find_font(bold=True), 54)
     lines = wrap(draw, f"\u201c{text}\u201d", quote_font, W - 160)
     lines = lines[:5]
     y = 150
     for line in lines:
-        draw.text((80, y), line, font=quote_font, fill=INK)
+        draw.text((80, y), line, font=quote_font, fill=IVORY)
         y += 68
     # Author + hairline footer.
     author_font = ImageFont.truetype(find_font(bold=False), 34)
-    draw.text((80, y + 16), f"\u2014 {author}", font=author_font, fill=MUTED)
+    draw.text((80, y + 16), f"\u2014 {author}", font=author_font, fill=GOLD_LIGHT)
     draw.line([(80, H - 80), (W - 80, H - 80)], fill=HAIRLINE, width=2)
     foot_font = ImageFont.truetype(find_font(bold=False), 26)
-    draw.text((80, H - 64), "kumquote.pages.dev", font=foot_font, fill=MUTED)
+    draw.text((80, H - 64), "kumquote.pages.dev", font=foot_font, fill=CREAM_DIM)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     img.save(out_path, "PNG")
     return out_path

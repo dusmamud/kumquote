@@ -9,14 +9,18 @@ interface Props {
 const { entry } = Astro.props;
 const { text, author, category } = entry.data;
 ---
-<article class="border-b border-stone-200 py-6 first:pt-0 dark:border-border-dark">
-  <blockquote class="font-display text-2xl leading-snug text-ink dark:text-text-dark">
-    <a href={quoteUrl(entry)} class="transition-colors duration-150 hover:text-brand hover:underline dark:hover:text-brand-dark">“{text}”</a>
+<!-- Poster card: white surface, gold top rule, Playfair Bold quote,
+     author in letterspaced caps (research: attribution in a quiet
+     sans, small, caps). No shadow on resting cards. -->
+<article class="flex flex-col rounded-xl border border-border bg-surface p-5 dark:border-border-dark dark:bg-surface-dark">
+  <span aria-hidden="true" class="h-1 w-10 rounded-full bg-gold"></span>
+  <blockquote class="mt-4 font-display text-[26px] font-bold leading-[1.25] tracking-[-0.01em] text-ink dark:text-text-dark">
+    <a href={quoteUrl(entry)} class="transition-colors duration-150 hover:text-brand dark:hover:text-brand-dark">“{text}”</a>
   </blockquote>
-  <p class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-[16px] text-stone-600 dark:text-text-dark-3">
-    <a href={authorUrl(author)} class="font-medium text-brand underline dark:text-brand-dark">{author}</a>
+  <p class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-[15px] text-muted dark:text-text-dark-3">
+    <a href={authorUrl(author)} class="font-semibold uppercase tracking-[0.08em] text-brand dark:text-brand-dark">{author}</a>
     <span aria-hidden="true">·</span>
-    <a href={categoryUrl(category)} class="capitalize underline decoration-stone-300 underline-offset-4 hover:text-brand dark:decoration-border-dark-2 dark:hover:text-brand-dark">{category}</a>
+    <a href={categoryUrl(category)} class="capitalize underline decoration-border underline-offset-4 hover:text-brand dark:decoration-border-dark-2 dark:hover:text-brand-dark">{category}</a>
     <span aria-hidden="true">·</span>
     <time datetime={isoDate(entry.data.pubDate)}>{isoDate(entry.data.pubDate)}</time>
   </p>

@@ -3,13 +3,22 @@ import SEO from '../components/SEO.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
-import '@fontsource/instrument-serif';
-import '@fontsource/instrument-serif/400-italic.css';
-/* Preload ONLY the above-fold font: Instrument latin 400 (hero, nav,
-   body). Vite ?url gives the same hashed asset the @font-face CSS
-   references, so there is no double download. crossorigin is required
-   even for self-hosted fonts, otherwise the preload is wasted. */
-import instrumentLatin400 from '@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url';
+/* v2 fonts: Playfair Display (display quotes/titles) + Inter (UI/body).
+   Self-hosted via @fontsource — zero Google Fonts requests.
+   Preload ONLY the above-fold font: Playfair latin 700 (hero quote).
+   Vite ?url gives the same hashed asset the @font-face CSS references,
+   so there is no double download. crossorigin is required even for
+   self-hosted fonts, otherwise the preload is wasted. */
+import '@fontsource/playfair-display';
+import '@fontsource/playfair-display/400-italic.css';
+import '@fontsource/playfair-display/700.css';
+import '@fontsource/playfair-display/700-italic.css';
+import '@fontsource/playfair-display/900.css';
+import '@fontsource/inter';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import playfairLatin700 from '@fontsource/playfair-display/files/playfair-display-latin-700-normal.woff2?url';
 
 interface Props {
   title: string;
@@ -34,10 +43,10 @@ const {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbf8f3" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#08090a" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbf8f1" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1526" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preload" as="font" type="font/woff2" crossorigin href={instrumentLatin400} />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={playfairLatin700} />
     <!-- Theme before paint: System / Light / Dark.
          Stored choice wins; otherwise the OS choice (System).
          Stored in localStorage as 'kumquote-theme'. The Header toggle
