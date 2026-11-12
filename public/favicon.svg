@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#101c36"/>
-  <text x="32" y="46" font-family="Georgia, 'Times New Roman', serif" font-size="44" fill="#c19a4b" text-anchor="middle">&#8220;</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="KumQuote">
+  <circle cx="32" cy="32" r="32" fill="#101C36"/>
+  <g transform="translate(6.196 91.832) scale(0.10280 -0.10280)"><path d="M141 434Q115 434 94.5 443.5Q74 453 62 471Q52 485 44.5 510.0Q37 535 37 566Q37 616 63.0 660.5Q89 705 143 730L152 712Q126 700 105.5 677.5Q85 655 77 630Q68 602 74 575Q100 606 147 606Q187 606 211.0 583.5Q235 561 235 520Q235 481 209.0 457.5Q183 434 141 434ZM371 434Q345 434 324.5 443.5Q304 453 292 471Q282 485 274.5 510.0Q267 535 267 566Q267 616 293.0 660.5Q319 705 373 730L382 712Q356 700 335.5 677.5Q315 655 307 630Q298 602 304 575Q330 606 377 606Q417 606 441.0 583.5Q465 561 465 520Q465 481 439.0 457.5Q413 434 371 434Z" fill="#C19A4B"/></g>
 </svg>
