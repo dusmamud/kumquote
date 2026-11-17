@@ -6,6 +6,9 @@ interface Props {
 const { currentPath } = Astro.props;
 const home = '/';
 const quotes = '/quotes/';
+const authors = '/authors/';
+const categories = '/categories/';
+const tags = '/tags/';
 const random = '/random/';
 const search = '/search/';
 const rss = '/rss.xml';
@@ -13,8 +16,8 @@ const isCurrent = (href: string) =>
   currentPath === href ||
   currentPath === href.replace(/\/$/, '') ||
   (href !== home && currentPath.startsWith(href));
-const desktopLink = (href: string) =>
-  `flex min-h-[44px] items-center px-1 text-[16px] font-medium transition-colors duration-150 ${
+const desktopLink = (href: string, display = 'flex') =>
+  `${display} min-h-[44px] items-center px-1 text-[16px] font-medium transition-colors duration-150 ${
     isCurrent(href)
       ? 'text-brand underline decoration-2 underline-offset-8 dark:text-brand-dark'
       : 'text-muted hover:text-ink dark:text-text-dark-2 dark:hover:text-brand-dark'
@@ -39,6 +42,8 @@ const themeBtnClass = 'hidden min-h-[44px] items-center gap-1.5 text-[15px] font
       <nav aria-label="Primary navigation" class="ms-6 hidden items-center gap-6 sm:flex">
         <a href={home} aria-current={isCurrent(home) ? 'page' : undefined} class={desktopLink(home)}><span class="link-underline">Home</span></a>
         <a href={quotes} aria-current={isCurrent(quotes) ? 'page' : undefined} class={desktopLink(quotes)}><span class="link-underline">Quotes</span></a>
+        <a href={authors} aria-current={isCurrent(authors) ? 'page' : undefined} class={desktopLink(authors, 'hidden lg:flex')}><span class="link-underline">Authors</span></a>
+        <a href={categories} aria-current={isCurrent(categories) ? 'page' : undefined} class={desktopLink(categories, 'hidden lg:flex')}><span class="link-underline">Categories</span></a>
         <a href={random} aria-current={isCurrent(random) ? 'page' : undefined} class={desktopLink(random)}><span class="link-underline">Random</span></a>
       </nav>
 
@@ -91,7 +96,7 @@ const themeBtnClass = 'hidden min-h-[44px] items-center gap-1.5 text-[15px] font
   aria-modal="true"
   aria-label="Mobile navigation"
   data-open="false"
-  class="mobile-menu fixed inset-0 z-50 hidden flex-col bg-paper dark:bg-paper-dark sm:hidden"
+  class="mobile-menu fixed inset-0 z-50 hidden flex-col overflow-y-auto bg-paper dark:bg-paper-dark sm:hidden"
 >
   <div class="mx-auto flex min-h-[64px] w-full max-w-6xl items-center justify-between gap-3 px-4">
     <span class="flex items-center gap-2.5">
@@ -110,6 +115,9 @@ const themeBtnClass = 'hidden min-h-[44px] items-center gap-1.5 text-[15px] font
   <nav aria-label="Primary navigation" class="mx-auto w-full max-w-6xl flex-1 px-4 pt-6">
     <a href={home} aria-current={isCurrent(home) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Home</a>
     <a href={quotes} aria-current={isCurrent(quotes) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Quotes</a>
+    <a href={authors} aria-current={isCurrent(authors) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Authors</a>
+    <a href={categories} aria-current={isCurrent(categories) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Categories</a>
+    <a href={tags} aria-current={isCurrent(tags) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Tags</a>
     <a href={random} aria-current={isCurrent(random) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Random</a>
     <a href={search} aria-current={isCurrent(search) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Search</a>
   </nav>

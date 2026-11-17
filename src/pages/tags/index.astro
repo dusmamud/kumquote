@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { tagCounts, tagUrl } from '../../lib/quotes';
+
+const tags = await tagCounts();
+// Alphabetical, grouped by first letter, like the authors index.
+const sorted = [...tags].sort((a, b) => a.tag.localeCompare(b.tag));
+const groups = new Map<string, { tag: string; count: number }[]>();
+for (const t of sorted) {
+  const letter = t.tag.charAt(0).toUpperCase();
+  const list = groups.get(letter) ?? [];
+  list.push(t);
+  groups.set(letter, list);
+}
+const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
+---
+<BaseLayout
+  title="All tags — KumQuote"
+  description={`All ${tags.length} tags on KumQuote — browse quotes by tag, A to Z.`}
+  canonical={`${site}tags/`}
+  currentPath="/tags/"
+>
+  <h1 data-reveal class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">All tags</h1>
+  <p class="mt-3 max-w-[65ch] text-lg text-muted dark:text-text-dark-3">{tags.length} tags — A to Z.</p>
+
+  {[...groups.entries()].map(([letter, list]) => (
+    <section aria-label={`Tags starting with ${letter}`} class="mt-10">
+      <h2 data-reveal class="font-display text-display-h2 font-bold text-ink dark:text-text-dark">{letter}</h2>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+        {list.map(({ tag, count }) => (
+          <li data-reveal>
+            <a href={tagUrl(tag)} class="poster-card flex min-h-[44px] items-center justify-between gap-3 rounded-xl border border-border bg-surface px-4 py-3 transition-colors duration-150 hover:border-brand dark:border-border-dark dark:hover:border-brand-dark">
+              <span class="text-[16px] font-medium text-ink dark:text-text-dark">{tag}</span>
+              <span class="shrink-0 text-sm tabular-nums text-muted dark:text-text-dark-3">{count} {count === 1 ? 'quote' : 'quotes'}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</BaseLayout>

@@ -336,6 +336,15 @@ a:hover .link-underline {
 .mobile-menu[data-open="true"] .menu-link:nth-child(4) {
   transition-delay: 240ms;
 }
+.mobile-menu[data-open="true"] .menu-link:nth-child(5) {
+  transition-delay: 300ms;
+}
+.mobile-menu[data-open="true"] .menu-link:nth-child(6) {
+  transition-delay: 360ms;
+}
+.mobile-menu[data-open="true"] .menu-link:nth-child(7) {
+  transition-delay: 420ms;
+}
 .menu-bar {
   transition:
     transform var(--dur-base) var(--ease-out),

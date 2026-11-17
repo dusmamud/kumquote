@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { categoryCounts, categoryUrl } from '../../lib/quotes';
+
+const categories = await categoryCounts();
+const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
+---
+<BaseLayout
+  title="All categories — KumQuote"
+  description={`Browse quotes by category — ${categories.length} categories on KumQuote, from motivation to gratitude.`}
+  canonical={`${site}categories/`}
+  currentPath="/categories/"
+>
+  <h1 data-reveal class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">All categories</h1>
+  <p class="mt-3 max-w-[65ch] text-lg text-muted dark:text-text-dark-3">{categories.length} categories — pick one and start reading.</p>
+
+  <div class="mt-8 grid gap-5 sm:grid-cols-2">
+    {categories.map(({ category, count }) => (
+      <a data-reveal href={categoryUrl(category)} class="poster-card block rounded-xl border border-border bg-surface p-5 dark:border-border-dark dark:bg-surface-dark">
+        <span aria-hidden="true" class="block h-1 w-10 rounded-full bg-gold"></span>
+        <span class="mt-4 block font-display text-display-card font-bold capitalize text-ink dark:text-text-dark">{category}</span>
+        <span class="mt-2 block text-[15px] text-muted dark:text-text-dark-3">{count} {count === 1 ? 'quote' : 'quotes'}</span>
+      </a>
+    ))}
+  </div>
+</BaseLayout>
