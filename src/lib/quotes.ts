@@ -143,6 +143,15 @@ export async function relatedQuotes(entry: QuoteEntry, limit = 3): Promise<Quote
     .slice(0, limit);
 }
 
+/** Neighbors in the newest-first list: `prev` is the newer quote,
+    `next` is the older one. Either may be missing at the ends. */
+export async function quoteNeighbors(entry: QuoteEntry): Promise<{ prev?: QuoteEntry; next?: QuoteEntry }> {
+  const quotes = await publishedQuotes();
+  const i = quotes.findIndex((q) => q.id === entry.id);
+  if (i === -1) return {};
+  return { prev: quotes[i - 1], next: quotes[i + 1] };
+}
+
 /** Short title for a quote page: first ~60 chars of the quote text. */
 export function quoteTitle(entry: QuoteEntry): string {
   const text = entry.data.text.replace(/[""]/g, '');
