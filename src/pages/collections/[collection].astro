@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import QuoteCard from '../../components/QuoteCard.astro';
-import { publishedQuotes, quoteSlug } from '../../lib/quotes';
+import { publishedQuotes, quoteSlug, quoteItemList } from '../../lib/quotes';
 import { COLLECTIONS, getCollection } from '../../data/collections';
 
 export async function getStaticPaths() {
@@ -23,6 +23,8 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   description={data.description}
   canonical={`${site}collections/${data.slug}/`}
   currentPath="/collections/"
+  breadcrumbs={[{ name: 'Home', url: site }, { name: 'Collections', url: `${site}collections/` }, { name: data.title, url: `${site}collections/${data.slug}/` }]}
+  itemList={quoteItemList(quotes, site)}
 >
   <p class="text-sm font-semibold uppercase tracking-[0.12em] text-brand dark:text-brand-dark">Collection</p>
   <h1 data-reveal class="mt-2 font-display text-display-h1 font-bold text-ink dark:text-text-dark">{data.title}</h1>

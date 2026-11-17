@@ -42,6 +42,7 @@ const { prev, next } = await quoteNeighbors(entry);
   image={entry.data.ogImage}
   quotation={{ text, author }}
   currentPath={quoteUrl(entry)}
+  breadcrumbs={[{ name: 'Home', url: site }, { name: 'Quotes', url: `${site}quotes/` }, { name: category.charAt(0).toUpperCase() + category.slice(1), url: `${site}${categoryUrl(category).slice(1)}` }, { name: quoteTitle(entry) }]}
 >
   <nav aria-label="Breadcrumb" class="text-sm text-muted dark:text-text-dark-3">
     <ol class="flex flex-wrap items-center gap-2">

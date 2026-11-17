@@ -2,7 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import QuoteCard from '../../../components/QuoteCard.astro';
 import Pagination from '../../../components/Pagination.astro';
-import { publishedQuotes, totalPages, pageSlice } from '../../../lib/quotes';
+import { publishedQuotes, totalPages, pageSlice, quoteItemList } from '../../../lib/quotes';
 
 export async function getStaticPaths() {
   const quotes = await publishedQuotes();
@@ -23,6 +23,8 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   description={`All ${total} quotes on KumQuote, newest first — page ${pageNum} of ${lastPage}.`}
   canonical={`${site}quotes/page/${pageNum}/`}
   currentPath="/quotes/"
+  breadcrumbs={[{ name: 'Home', url: site }, { name: 'All quotes', url: `${site}quotes/` }]}
+  itemList={quoteItemList(pageQuotes, site)}
 >
   <h1 class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">All quotes</h1>
   <p class="mt-3 max-w-[65ch] text-lg text-muted dark:text-text-dark-3">{total} quotes — newest first. Page {pageNum} of {lastPage}.</p>

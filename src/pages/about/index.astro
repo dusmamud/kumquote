@@ -13,6 +13,7 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   description="What KumQuote is, how its quotes are chosen and checked, and how to get in touch."
   canonical={`${site}about/`}
   currentPath="/about/"
+  breadcrumbs={[{ name: 'Home', url: site }, { name: 'About', url: `${site}about/` }]}
 >
   <h1 data-reveal class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">About KumQuote</h1>
   <p class="mt-3 max-w-[65ch] text-lg leading-relaxed text-muted dark:text-text-dark-3">KumQuote is a collection of quotes worth remembering — famous quotes with the meaning behind them, not just the words. New quotes are added every day.</p>

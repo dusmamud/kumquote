@@ -30,11 +30,14 @@ interface Props {
   image?: string;
   quotation?: { text: string; author: string };
   currentPath: string;
+  breadcrumbs?: { name: string; url?: string }[];
+  itemList?: { name: string; url: string }[];
 }
 
 const {
   title, description, canonical, type = 'website',
   publishedTime, updatedTime, image, quotation, currentPath,
+  breadcrumbs, itemList,
 } = Astro.props;
 ---
 
@@ -74,6 +77,8 @@ const {
       updatedTime={updatedTime}
       image={image}
       quotation={quotation}
+      breadcrumbs={breadcrumbs}
+      itemList={itemList}
     />
     <link rel="alternate" type="application/rss+xml" title="KumQuote RSS" href="/rss.xml" />
   </head>

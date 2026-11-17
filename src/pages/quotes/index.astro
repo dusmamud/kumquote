@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import QuoteCard from '../../components/QuoteCard.astro';
 import Pagination from '../../components/Pagination.astro';
-import { publishedQuotes, categoryCounts, categoryUrl, totalPages, pageSlice } from '../../lib/quotes';
+import { publishedQuotes, categoryCounts, categoryUrl, totalPages, pageSlice, quoteItemList } from '../../lib/quotes';
 
 const quotes = await publishedQuotes();
 const categories = await categoryCounts();
@@ -15,6 +15,8 @@ const pageQuotes = pageSlice(quotes, 1);
   description={`All ${quotes.length} quotes on KumQuote, newest first — browse by author, category, or tag.`}
   canonical={`${site}quotes/`}
   currentPath="/quotes/"
+  breadcrumbs={[{ name: 'Home', url: site }, { name: 'All quotes', url: `${site}quotes/` }]}
+  itemList={quoteItemList(pageQuotes, site)}
 >
   <h1 class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">All quotes</h1>
   <p class="mt-3 max-w-[65ch] text-lg text-muted dark:text-text-dark-3">{quotes.length} quotes — newest first.</p>

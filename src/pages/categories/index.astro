@@ -10,6 +10,8 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   description={`Browse quotes by category — ${categories.length} categories on KumQuote, from motivation to gratitude.`}
   canonical={`${site}categories/`}
   currentPath="/categories/"
+  breadcrumbs={[{ name: 'Home', url: site }, { name: 'Categories', url: `${site}categories/` }]}
+  itemList={categories.map(({ category }) => ({ name: category.charAt(0).toUpperCase() + category.slice(1), url: `${site}${categoryUrl(category).slice(1)}` }))}
 >
   <h1 data-reveal class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">All categories</h1>
   <p class="mt-3 max-w-[65ch] text-lg text-muted dark:text-text-dark-3">{categories.length} categories — pick one and start reading.</p>

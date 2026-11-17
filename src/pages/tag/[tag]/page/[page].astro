@@ -2,7 +2,7 @@
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import QuoteCard from '../../../../components/QuoteCard.astro';
 import Pagination from '../../../../components/Pagination.astro';
-import { publishedQuotes, tagCounts, tagUrl, slugify, totalPages, pageSlice } from '../../../../lib/quotes';
+import { publishedQuotes, tagCounts, tagUrl, slugify, totalPages, pageSlice, quoteItemList } from '../../../../lib/quotes';
 
 export async function getStaticPaths() {
   const tags = await tagCounts();
@@ -26,6 +26,8 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   description={`Quotes tagged “${tag}” on KumQuote — ${total} ${total === 1 ? 'quote' : 'quotes'}. Page ${pageNum} of ${lastPage}.`}
   canonical={`${site}${tagUrl(tag).slice(1)}page/${pageNum}/`}
   currentPath={tagUrl(tag)}
+  breadcrumbs={[{ name: 'Home', url: site }, { name: 'Tags', url: `${site}tags/` }, { name: tag, url: `${site}${tagUrl(tag).slice(1)}` }]}
+  itemList={quoteItemList(pageQuotes, site)}
 >
   <h1 class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">“{tag}”</h1>
   <p class="mt-3 text-lg text-muted dark:text-text-dark-3">{total} {total === 1 ? 'quote' : 'quotes'} · Page {pageNum} of {lastPage}</p>

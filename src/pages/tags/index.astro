@@ -19,6 +19,7 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   description={`All ${tags.length} tags on KumQuote — browse quotes by tag, A to Z.`}
   canonical={`${site}tags/`}
   currentPath="/tags/"
+  breadcrumbs={[{ name: 'Home', url: site }, { name: 'Tags', url: `${site}tags/` }]}
 >
   <h1 data-reveal class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">All tags</h1>
   <p class="mt-3 max-w-[65ch] text-lg text-muted dark:text-text-dark-3">{tags.length} tags — A to Z.</p>

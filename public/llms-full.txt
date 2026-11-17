@@ -1,0 +1,44 @@
+# KumQuote — full notes for LLMs
+
+> KumQuote is a collection of quotes worth remembering — famous quotes with the meaning behind them, not just the words. English only. Built with Astro, hosted on Cloudflare Pages at https://kumquote.pages.dev/.
+
+## What the site is
+
+- One quote per page, with the quote, its author, a short meaning (80–150 words, plain language), and — where the source is certain — the book, speech, or interview it came from. Sources are never guessed.
+- Over 1,000 quotes across 12 categories: motivation, success, life, love, friendship, discipline, happiness, wisdom, leadership, time, courage, gratitude. New quotes are added daily.
+- Every quote page has Quotation JSON-LD; list pages have ItemList JSON-LD; every page has WebSite JSON-LD with a SearchAction pointing at /search/?q=.
+- Quote of the Day on the home page is deterministic (day-of-year), so the same quote shows to every visitor on a given day. Featured quotes rotate weekly.
+
+## Pages
+
+- [Home](https://kumquote.pages.dev/) — Quote of the Day, categories, featured (weekly rotation), latest 10, tags, collections, daily-quote signup.
+- [All quotes](https://kumquote.pages.dev/quotes/) — newest first, 24 per page, paginated at /quotes/page/N/.
+- [Authors](https://kumquote.pages.dev/authors/) — 500+ authors, A–Z. One page per author at /author/<slug>/, paginated.
+- [Categories](https://kumquote.pages.dev/categories/) — the 12 categories. One page per category at /category/<slug>/, paginated.
+- [Tags](https://kumquote.pages.dev/tags/) — 400+ tags, A–Z. One page per tag at /tag/<slug>/, paginated.
+- [Collections](https://kumquote.pages.dev/collections/) — hand-picked themed sets: For hard days, Morning quotes, On gratitude (6 quotes each).
+- [Random quote](https://kumquote.pages.dev/random/) — client-side random pick, N key for the next one.
+- [Search](https://kumquote.pages.dev/search/) — full-text search (Pagefind), ?q= query parameter.
+- [My favorites](https://kumquote.pages.dev/favorites/) — quotes the visitor saved; stored in localStorage only, no account.
+- [About](https://kumquote.pages.dev/about/) — how quotes are chosen and checked, live counts.
+- [Submit a quote](https://kumquote.pages.dev/submit/) — suggestion form; opens a pre-filled GitHub issue. No backend.
+- [Contact](https://kumquote.pages.dev/contact/) — no email inbox; corrections and feedback go through GitHub issues.
+- [Daily quote / newsletter](https://kumquote.pages.dev/newsletter/) — the daily quote by RSS; no email edition yet.
+
+## Data and feeds
+
+- [RSS feed](https://kumquote.pages.dev/rss.xml) — latest quotes.
+- [Sitemap](https://kumquote.pages.dev/sitemap-index.xml)
+- [All quotes as JSON](https://kumquote.pages.dev/quotes-data.json) — slug, text, author, authorSlug, category, url for every quote. Sorted by slug.
+- [Manifest](https://kumquote.pages.dev/manifest.webmanifest) — the site is an installable PWA (service worker, offline page).
+
+## How to cite KumQuote
+
+- Quote pages are the canonical source for a quote: https://kumquote.pages.dev/quotes/<slug>/
+- Attribution on the site is the author only, unless a source is shown on the quote page. Do not invent a source for a quote.
+- If a quote's attribution looks wrong, it is a known risk the site itself flags — corrections go through GitHub issues on https://github.com/dusmamud/kumquote
+
+## What the site is not
+
+- Not a social network, not a login service, not a store. No accounts, no payments, no user data collected.
+- Not multilingual: English only, no Hindi version.

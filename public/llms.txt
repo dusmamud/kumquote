@@ -1,0 +1,31 @@
+# KumQuote
+
+> Quotes worth remembering — famous quotes with the meaning behind them, by author and category. English only. New quotes added daily.
+
+## Browse
+
+- [Home](https://kumquote.pages.dev/)
+- [All quotes](https://kumquote.pages.dev/quotes/)
+- [Authors](https://kumquote.pages.dev/authors/)
+- [Categories](https://kumquote.pages.dev/categories/)
+- [Tags](https://kumquote.pages.dev/tags/)
+- [Collections](https://kumquote.pages.dev/collections/)
+- [Random quote](https://kumquote.pages.dev/random/)
+- [Search](https://kumquote.pages.dev/search/)
+- [About](https://kumquote.pages.dev/about/)
+- [Submit a quote](https://kumquote.pages.dev/submit/)
+- [Contact](https://kumquote.pages.dev/contact/)
+- [Daily quote / newsletter](https://kumquote.pages.dev/newsletter/)
+
+## Feeds and data
+
+- [RSS feed](https://kumquote.pages.dev/rss.xml)
+- [Sitemap](https://kumquote.pages.dev/sitemap-index.xml)
+- [All quotes as JSON](https://kumquote.pages.dev/quotes-data.json)
+
+## Notes
+
+- Every quote is a real, well-known quote with correct attribution; a source is shown only where it is certain.
+- Over 1,000 quotes across 12 categories, growing daily.
+- Favorites are stored in the visitor's browser only (localStorage); there is no account system.
+- Full details: [llms-full.txt](https://kumquote.pages.dev/llms-full.txt)

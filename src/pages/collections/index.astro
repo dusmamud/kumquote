@@ -9,6 +9,8 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   description="Hand-picked collections of quotes on one theme — for hard days, for mornings, and on gratitude."
   canonical={`${site}collections/`}
   currentPath="/collections/"
+  breadcrumbs={[{ name: 'Home', url: site }, { name: 'Collections', url: `${site}collections/` }]}
+  itemList={COLLECTIONS.map((c) => ({ name: c.title, url: `${site}collections/${c.slug}/` }))}
 >
   <h1 data-reveal class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">Collections</h1>
   <p class="mt-3 max-w-[65ch] text-lg text-muted dark:text-text-dark-3">Hand-picked sets of quotes on one theme — a place to start when a category feels too wide.</p>

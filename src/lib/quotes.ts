@@ -23,6 +23,17 @@ export function quoteUrl(entry: QuoteEntry): string {
   return `/quotes/${quoteSlug(entry)}/`;
 }
 
+/** One entry for JSON-LD BreadcrumbList / ItemList. */
+export interface SchemaLink {
+  name: string;
+  url: string;
+}
+
+/** Absolute URLs for a page of quotes, for ItemList JSON-LD. */
+export function quoteItemList(quotes: QuoteEntry[], site: string): SchemaLink[] {
+  return quotes.map((q) => ({ name: quoteTitle(q), url: `${site}${quoteUrl(q).slice(1)}` }));
+}
+
 export function authorSlug(author: string): string {
   return slugify(author);
 }

@@ -8,9 +8,11 @@ interface Props {
   updatedTime?: string;
   image?: string;
   quotation?: { text: string; author: string };
+  breadcrumbs?: { name: string; url?: string }[];
+  itemList?: { name: string; url: string }[];
 }
 
-const { title, description, canonical, type = 'website', publishedTime, updatedTime, image, quotation } = Astro.props;
+const { title, description, canonical, type = 'website', publishedTime, updatedTime, image, quotation, breadcrumbs, itemList } = Astro.props;
 const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://kumquote.pages.dev';
 const ogImage = image ? `${site}${image}` : `${site}/og.png`;
 ---
@@ -38,5 +40,44 @@ const ogImage = image ? `${site}${image}` : `${site}/og.png`;
     url: canonical,
     ...(publishedTime ? { datePublished: publishedTime } : {}),
     ...(updatedTime ? { dateModified: updatedTime } : {}),
+  })} />
+)}
+{/* WebSite + SearchAction on every page: the search box in rich
+     results. The search page reads ?q=, so the template matches. */}
+<script type="application/ld+json" set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'KumQuote',
+  url: site,
+  description: 'Quotes worth remembering — famous quotes with the meaning behind them.',
+  inLanguage: 'en',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: { '@type': 'EntryPoint', urlTemplate: `${site}/search/?q={search_term_string}` },
+    'query-input': 'required name=search_term_string',
+  },
+})} />
+{breadcrumbs && breadcrumbs.length > 0 && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((b, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: b.name,
+      ...(b.url ? { item: b.url } : {}),
+    })),
+  })} />
+)}
+{itemList && itemList.length > 0 && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: itemList.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      url: it.url,
+    })),
   })} />
 )}
