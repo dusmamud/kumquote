@@ -53,6 +53,17 @@ export function isoDate(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
 
+/** Page size for every quote list page (2-col grid → 12 rows). */
+export const PAGE_SIZE = 24;
+
+export function totalPages(count: number, pageSize: number = PAGE_SIZE): number {
+  return Math.max(1, Math.ceil(count / pageSize));
+}
+
+export function pageSlice<T>(items: T[], page: number, pageSize: number = PAGE_SIZE): T[] {
+  return items.slice((page - 1) * pageSize, page * pageSize);
+}
+
 /** Quote of the Day — deterministic, no server: the UTC day-of-year
     picks the quote, so every visitor sees the same quote on the same
     day, and it changes when the date changes. */

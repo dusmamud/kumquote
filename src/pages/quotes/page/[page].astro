@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import QuoteCard from '../../../components/QuoteCard.astro';
+import Pagination from '../../../components/Pagination.astro';
+import { publishedQuotes, totalPages, pageSlice } from '../../../lib/quotes';
+
+export async function getStaticPaths() {
+  const quotes = await publishedQuotes();
+  const lastPage = totalPages(quotes.length);
+  return Array.from({ length: lastPage - 1 }, (_, i) => ({
+    params: { page: String(i + 2) },
+    props: { pageNum: i + 2, total: quotes.length, lastPage },
+  }));
+}
+
+const { pageNum, total, lastPage } = Astro.props;
+const quotes = await publishedQuotes();
+const pageQuotes = pageSlice(quotes, pageNum);
+const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
+---
+<BaseLayout
+  title={`All quotes — page ${pageNum} — KumQuote`}
+  description={`All ${total} quotes on KumQuote, newest first — page ${pageNum} of ${lastPage}.`}
+  canonical={`${site}quotes/page/${pageNum}/`}
+  currentPath="/quotes/"
+>
+  <h1 class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">All quotes</h1>
+  <p class="mt-3 max-w-[65ch] text-lg text-muted dark:text-text-dark-3">{total} quotes — newest first. Page {pageNum} of {lastPage}.</p>
+
+  <div class="mt-8 grid gap-5 sm:grid-cols-2">
+    {pageQuotes.map((entry) => <QuoteCard entry={entry} />)}
+  </div>
+
+  <Pagination currentPage={pageNum} lastPage={lastPage} base="/quotes/" />
+</BaseLayout>

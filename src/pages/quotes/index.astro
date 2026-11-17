@@ -1,11 +1,14 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import QuoteCard from '../../components/QuoteCard.astro';
-import { publishedQuotes, categoryCounts, categoryUrl } from '../../lib/quotes';
+import Pagination from '../../components/Pagination.astro';
+import { publishedQuotes, categoryCounts, categoryUrl, totalPages, pageSlice } from '../../lib/quotes';
 
 const quotes = await publishedQuotes();
 const categories = await categoryCounts();
 const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
+const lastPage = totalPages(quotes.length);
+const pageQuotes = pageSlice(quotes, 1);
 ---
 <BaseLayout
   title="All quotes — KumQuote"
@@ -25,6 +28,8 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   )}
 
   <div class="mt-8 grid gap-5 sm:grid-cols-2">
-    {quotes.map((entry) => <QuoteCard entry={entry} />)}
+    {pageQuotes.map((entry) => <QuoteCard entry={entry} />)}
   </div>
+
+  <Pagination currentPage={1} lastPage={lastPage} base="/quotes/" />
 </BaseLayout>

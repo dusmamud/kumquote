@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import QuoteCard from '../../../../components/QuoteCard.astro';
+import Pagination from '../../../../components/Pagination.astro';
+import { publishedQuotes, categoryCounts, categoryUrl, totalPages, pageSlice } from '../../../../lib/quotes';
+
+export async function getStaticPaths() {
+  const categories = await categoryCounts();
+  const paths = [];
+  for (const { category, count } of categories) {
+    const lastPage = totalPages(count);
+    for (let pageNum = 2; pageNum <= lastPage; pageNum++) {
+      paths.push({ params: { category, page: String(pageNum) }, props: { category, pageNum, total: count, lastPage } });
+    }
+  }
+  return paths;
+}
+
+const { category, pageNum, total, lastPage } = Astro.props;
+const quotes = (await publishedQuotes()).filter((q) => q.data.category === category);
+const pageQuotes = pageSlice(quotes, pageNum);
+const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
+const label = category.charAt(0).toUpperCase() + category.slice(1);
+---
+<BaseLayout
+  title={`${label} quotes — page ${pageNum} — KumQuote`}
+  description={`${label} quotes on KumQuote — ${total} ${total === 1 ? 'quote' : 'quotes'} with the meaning behind each one. Page ${pageNum} of ${lastPage}.`}
+  canonical={`${site}${categoryUrl(category).slice(1)}page/${pageNum}/`}
+  currentPath={categoryUrl(category)}
+>
+  <h1 class="font-display text-display-h1 font-bold capitalize text-ink dark:text-text-dark">{category} quotes</h1>
+  <p class="mt-3 text-lg text-muted dark:text-text-dark-3">{total} {total === 1 ? 'quote' : 'quotes'} · Page {pageNum} of {lastPage}</p>
+  <div class="mt-8 grid gap-5 sm:grid-cols-2">
+    {pageQuotes.map((entry) => <QuoteCard entry={entry} />)}
+  </div>
+  <Pagination currentPage={pageNum} lastPage={lastPage} base={categoryUrl(category)} />
+  <p class="mt-10"><a href="/quotes/" class="flex min-h-[44px] items-center gap-2 font-semibold text-brand underline dark:text-brand-dark">← Back to all quotes</a></p>
+</BaseLayout>

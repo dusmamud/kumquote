@@ -1,0 +1,57 @@
+---
+/* Pagination — Ink & Gold Poster style: bordered buttons, navy current
+   page, no gradients/glows/lift. Page 1 URL is `base` (e.g. "/quotes/"),
+   page N is `base + "page/" + N + "/"`. */
+interface Props {
+  currentPage: number;
+  lastPage: number;
+  base: string;
+}
+
+const { currentPage, lastPage, base } = Astro.props;
+
+function pageUrl(n: number): string {
+  return n === 1 ? base : `${base}page/${n}/`;
+}
+
+/* Windowed page list: 1, …, current-1, current, current+1, …, last. */
+function pages(): (number | '…')[] {
+  if (lastPage <= 7) return Array.from({ length: lastPage }, (_, i) => i + 1);
+  const set = new Set<number>([1, lastPage, currentPage - 1, currentPage, currentPage + 1]);
+  const list = [...set].filter((n) => n >= 1 && n <= lastPage).sort((a, b) => a - b);
+  const out: (number | '…')[] = [];
+  for (let i = 0; i < list.length; i++) {
+    if (i > 0 && list[i] - list[i - 1] > 1) out.push('…');
+    out.push(list[i]);
+  }
+  return out;
+}
+
+const btn = 'flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md border border-border bg-surface px-3 text-sm font-medium tabular-nums transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:bg-surface-dark dark:hover:border-brand-dark dark:hover:text-brand-dark';
+const current = 'flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md border border-ink bg-ink px-3 text-sm font-semibold tabular-nums text-paper dark:border-text-dark dark:bg-text-dark dark:text-ink';
+const disabled = 'flex min-h-[44px] items-center justify-center rounded-md border border-border px-3 text-sm opacity-50 dark:border-border-dark-2';
+---
+
+{lastPage > 1 && (
+  <nav aria-label="Pagination" class="mt-10 flex flex-wrap items-center gap-2">
+    {currentPage > 1 ? (
+      <a href={pageUrl(currentPage - 1)} class={btn} rel="prev">← Previous</a>
+    ) : (
+      <span aria-disabled="true" class={disabled}>← Previous</span>
+    )}
+    {pages().map((p) =>
+      p === '…' ? (
+        <span aria-hidden="true" class="px-1 text-muted dark:text-text-dark-3">…</span>
+      ) : p === currentPage ? (
+        <span aria-current="page" class={current}>{p}</span>
+      ) : (
+        <a href={pageUrl(p)} class={btn}>{p}</a>
+      )
+    )}
+    {currentPage < lastPage ? (
+      <a href={pageUrl(currentPage + 1)} class={btn} rel="next">Next →</a>
+    ) : (
+      <span aria-disabled="true" class={disabled}>Next →</span>
+    )}
+  </nav>
+)}
