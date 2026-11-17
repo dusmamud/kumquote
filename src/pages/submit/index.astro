@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
+const inputClass = 'mt-2 w-full rounded-lg border border-border bg-surface px-4 py-3 text-[16px] text-ink placeholder:text-muted/60 dark:border-border-dark-2 dark:bg-surface-dark dark:text-text-dark dark:placeholder:text-text-dark-3/60';
+const labelClass = 'block text-sm font-semibold text-ink dark:text-text-dark';
+---
+<BaseLayout
+  title="Submit a quote — KumQuote"
+  description="Suggest a quote for KumQuote — every suggestion is reviewed, and only real quotes with correct attribution are published."
+  canonical={`${site}submit/`}
+  currentPath="/submit/"
+>
+  <h1 data-reveal class="font-display text-display-h1 font-bold text-ink dark:text-text-dark">Submit a quote</h1>
+  <p class="mt-3 max-w-[65ch] text-lg leading-relaxed text-muted dark:text-text-dark-3">Know a quote that belongs here? Suggest it. Every suggestion is reviewed, and only real quotes with correct attribution are published — invented quotes and wrong attributions are not.</p>
+
+  <form id="submit-form" class="mt-8 max-w-[65ch]">
+    <div>
+      <label for="quote-text" class={labelClass}>Quote *</label>
+      <textarea id="quote-text" name="quote" rows="3" required placeholder="The exact words of the quote" class={inputClass}></textarea>
+    </div>
+    <div class="mt-5">
+      <label for="quote-author" class={labelClass}>Author *</label>
+      <input id="quote-author" name="author" type="text" required placeholder="Who said or wrote it?" class={inputClass} />
+    </div>
+    <div class="mt-5">
+      <label for="quote-source" class={labelClass}>Source <span class="font-normal text-muted dark:text-text-dark-3">(optional)</span></label>
+      <input id="quote-source" name="source" type="text" placeholder="Book, speech, interview — only if you are sure" class={inputClass} />
+    </div>
+    <div class="mt-5">
+      <label for="quote-name" class={labelClass}>Your name <span class="font-normal text-muted dark:text-text-dark-3">(optional)</span></label>
+      <input id="quote-name" name="name" type="text" placeholder="So we can credit your suggestion" class={inputClass} />
+    </div>
+    <p class="mt-6">
+      <button type="submit" class="flex min-h-[44px] items-center rounded-lg bg-ink px-5 text-[15px] font-semibold text-cream transition-opacity duration-150 hover:opacity-90 dark:bg-brand-dark dark:text-paper-dark">Suggest on GitHub →</button>
+    </p>
+    <p class="mt-3 text-sm leading-relaxed text-muted dark:text-text-dark-3">This opens a pre-filled suggestion on GitHub in a new tab — you will need a GitHub account to post it. Nothing is sent until you submit it there.</p>
+  </form>
+
+  <p class="mt-10 max-w-[65ch] leading-relaxed text-muted dark:text-text-dark-3">Prefer to write it yourself? <a href="https://github.com/dusmamud/kumquote/issues/new" target="_blank" rel="noopener noreferrer" class="font-semibold text-brand underline dark:text-brand-dark">Open an issue on GitHub</a> directly.</p>
+
+  <script>
+    // No backend: the form builds a pre-filled GitHub issue URL and
+    // opens it in a new tab. Nothing leaves the browser until then.
+    const form = document.getElementById('submit-form');
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const text = (document.getElementById('quote-text') as HTMLTextAreaElement | null)?.value.trim() ?? '';
+      const author = (document.getElementById('quote-author') as HTMLInputElement | null)?.value.trim() ?? '';
+      const source = (document.getElementById('quote-source') as HTMLInputElement | null)?.value.trim() ?? '';
+      const name = (document.getElementById('quote-name') as HTMLInputElement | null)?.value.trim() ?? '';
+      if (!text || !author) return;
+      const short = text.length > 60 ? `${text.slice(0, 57).trimEnd()}…` : text;
+      const title = `Quote suggestion: “${short}” — ${author}`;
+      const body = [
+        `**Quote:** “${text}”`,
+        `**Author:** ${author}`,
+        `**Source:** ${source || 'Not sure'}`,
+        `**Suggested by:** ${name || 'Anonymous'}`,
+        '',
+        '---',
+        'Submitted from kumquote.pages.dev/submit/',
+      ].join('\n');
+      const url = `https://github.com/dusmamud/kumquote/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+      window.open(url, '_blank', 'noopener');
+    });
+  </script>
+</BaseLayout>
