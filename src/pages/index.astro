@@ -1,11 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import QuoteCard from '../components/QuoteCard.astro';
-import { publishedQuotes, quoteOfTheDay, categoryCounts, tagCounts, quoteUrl, authorUrl, categoryUrl, tagUrl } from '../lib/quotes';
+import { publishedQuotes, quoteOfTheDay, featuredQuotes, categoryCounts, tagCounts, quoteUrl, authorUrl, categoryUrl, tagUrl } from '../lib/quotes';
 
 const quotes = await publishedQuotes();
 const today = quoteOfTheDay(quotes);
-const featured = quotes.filter((q) => q.data.featured).slice(0, 3);
+const featured = featuredQuotes(quotes);
 const latest = quotes.slice(0, 10);
 const categories = await categoryCounts();
 const tags = (await tagCounts()).slice(0, 12);
@@ -58,6 +58,7 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
   {featured.length > 0 && (
     <section aria-label="Featured quotes" class="mt-12">
       <h2 data-reveal class="font-display text-display-h2 font-bold text-ink dark:text-text-dark">Featured</h2>
+      <p class="mt-2 text-[15px] text-muted dark:text-text-dark-3">Fresh picks every week.</p>
       <div class="mt-6 grid gap-5 sm:grid-cols-2">
         {featured.map((entry) => <QuoteCard entry={entry} />)}
       </div>

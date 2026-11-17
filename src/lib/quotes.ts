@@ -64,6 +64,27 @@ export function pageSlice<T>(items: T[], page: number, pageSize: number = PAGE_S
   return items.slice((page - 1) * pageSize, page * pageSize);
 }
 
+/** Featured quotes — rotates weekly so the home "Featured" section
+    never freezes on the 3 seed quotes: 3 quotes picked
+    deterministically from the slug-sorted list by week-of-year,
+    spread evenly across the collection. Same picks for every
+    visitor in the same week; changes when the week changes. */
+export function featuredQuotes(quotes: QuoteEntry[], on = new Date(), count = 3): QuoteEntry[] {
+  if (quotes.length === 0) return [];
+  const sorted = [...quotes].sort((a, b) => quoteSlug(a).localeCompare(quoteSlug(b)));
+  if (sorted.length <= count) return sorted;
+  const start = Date.UTC(on.getUTCFullYear(), 0, 0);
+  const dayOfYear = Math.floor((on.getTime() - start) / 86400000);
+  const week = Math.floor(dayOfYear / 7);
+  const stride = Math.floor(sorted.length / count);
+  const offset = (week * 11) % sorted.length;
+  const picked: QuoteEntry[] = [];
+  for (let i = 0; i < count; i++) {
+    picked.push(sorted[(offset + i * stride) % sorted.length]);
+  }
+  return picked;
+}
+
 /** Quote of the Day — deterministic, no server: the UTC day-of-year
     picks the quote, so every visitor sees the same quote on the same
     day, and it changes when the date changes. */

@@ -97,6 +97,10 @@ stacked lockups, clearspace, colours, don'ts — in
   (rounded-2xl): gold eyebrow, Playfair Bold fluid 40–68px ivory quote
   (max-w 26ch), gold author line, gold "Browse all quotes" button,
   ivory-outline "Random".
+- **Featured (home):** 3 quotes rotating weekly — deterministic week
+  offset over the slug-sorted list (`featuredQuotes` in
+  `src/lib/quotes.ts`), so the section never freezes on the 3 seed
+  quotes. Caption: "Fresh picks every week."
 - **Quote lists:** 2-col grid of poster cards (white surface, 4px gold
   top rule, Playfair Bold fluid 24–32px quote, author in caps, category
   + date).
