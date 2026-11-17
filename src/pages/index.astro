@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import QuoteCard from '../components/QuoteCard.astro';
 import { publishedQuotes, quoteOfTheDay, featuredQuotes, categoryCounts, tagCounts, quoteUrl, authorUrl, categoryUrl, tagUrl } from '../lib/quotes';
+import { COLLECTIONS } from '../data/collections';
 
 const quotes = await publishedQuotes();
 const today = quoteOfTheDay(quotes);
@@ -55,6 +56,23 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
       </ul>
     </section>
   )}
+
+  <section aria-label="Collections" class="mt-12">
+    <h2 data-reveal class="font-display text-display-h2 font-bold text-ink dark:text-text-dark">Collections</h2>
+    <p class="mt-2 text-[15px] text-muted dark:text-text-dark-3">Hand-picked sets of quotes on one theme.</p>
+    <ul class="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {COLLECTIONS.map((c) => (
+        <li data-reveal class="poster-card flex flex-col rounded-xl border border-border bg-surface p-5 dark:border-border-dark dark:bg-surface-dark">
+          <span aria-hidden="true" class="h-1 w-10 rounded-full bg-gold"></span>
+          <h3 class="mt-4 font-display text-display-card font-bold text-ink dark:text-text-dark">
+            <a href={`/collections/${c.slug}/`} class="transition-colors duration-150 hover:text-brand dark:hover:text-brand-dark">{c.title}</a>
+          </h3>
+          <p class="mt-2 flex-1 leading-relaxed text-muted dark:text-text-dark-3">{c.description}</p>
+          <p class="mt-4 text-[15px] font-medium text-muted dark:text-text-dark-3">{c.quotes.length} quotes →</p>
+        </li>
+      ))}
+    </ul>
+  </section>
 
   {featured.length > 0 && (
     <section aria-label="Featured quotes" class="mt-12">
