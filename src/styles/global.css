@@ -200,6 +200,70 @@ article h3[id] {
   }
 }
 
+/* Motion v3 (2026-11-17, Dus approved richer animation): scroll
+   reveals, card hover lift, Random crossfade, copy pop. Budget:
+   small 150-200ms, cards 250-300ms, hero 300-400ms, never over
+   500ms; transform + opacity only. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Scroll reveals: hidden only when JS runs (.js on <html>), so a
+     no-JS visit never hides content. Stagger via --reveal-delay,
+     set by src/scripts/reveal.ts per parent group. */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity var(--dur-slow) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  /* Poster card hover: 3px lift + brand border + soft shadow.
+     Resting cards still have no shadow. */
+  .poster-card {
+    transition:
+      transform var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out);
+  }
+  .poster-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-brand);
+    box-shadow: 0 8px 24px rgba(16, 28, 54, 0.1);
+  }
+  .dark .poster-card:hover {
+    border-color: var(--color-brand-dark);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+  /* Random quote crossfade. */
+  .quote-swap {
+    transition:
+      opacity 200ms var(--ease-out),
+      transform 200ms var(--ease-out);
+  }
+  .quote-swap.is-swapping {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  /* Copy button pop on "Copied". */
+  .copied-pop {
+    animation: copy-pop 250ms var(--ease-out);
+  }
+  @keyframes copy-pop {
+    0% {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(1.06);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}
+
 /* Animated underline for nav/footer links: grows from the left,
    transform only. */
 .link-underline {

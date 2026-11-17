@@ -53,9 +53,37 @@ Rules: gold is marks, rules and fills ONLY — never body/link text in
 light mode (2.4:1, fails WCAG). Links are ink with underline; the
 text-safe bronze is for link/button text. Dark mode is designed on
 purpose, never inverted. No gradients, no glows, no shadows on resting
-cards, radii by size (buttons/cards rounded-lg, chips rounded-md), no
-hover lift, hero entrance 8px / 50-100-150ms, 44px touch targets,
-reduced-motion respected, focus ring never removed.
+cards, radii by size (buttons/cards rounded-lg, chips rounded-md),
+44px touch targets, reduced-motion respected, focus ring never removed.
+Motion rules are in the Motion section below (v3, 2026-11-17).
+
+## Motion (v3, 2026-11-17 — Dus approved "richer animation, rules loose kar do")
+- Budget: small elements 150–200ms, cards 250–300ms, hero 300–400ms,
+  never over 500ms; transform + opacity only.
+- Poster cards lift 3px on hover, border turns brand, soft shadow on
+  hover only (resting cards still no shadow).
+- Scroll reveals: 12px rise + fade, 400ms ease-out, stagger 50–100ms,
+  IntersectionObserver, once only; hidden state is JS-gated (`.js`
+  class) so no-JS never hides content.
+- Random quote crossfades 200ms on pick; Copy button flips to
+  "✓ Copied" with a quick scale pop.
+- Still NO: gradients, glows, emoji, cursor-following decoration,
+  animating paragraph text, replaying the hero on repeat visits.
+- Reduced-motion fully respected: reveals off, crossfade off, hover
+  lift off.
+
+## Logo (v1, applied 2026-11-12)
+Mark: navy disc + gold Playfair Display 900 opening double-quote, pure
+SVG paths (zero `<text>`), built by
+`~/workspace/kumquote-design/scripts/build_logo.py` from the site's own
+@fontsource files. Full system — mark, reversed mark, horizontal +
+stacked lockups, clearspace, colours, don'ts — in
+`~/workspace/kumquote-design/` (README.md + preview.html).
+- `public/favicon.svg` IS the mark; Header + mobile menu use it at 36px.
+- Clearspace x = ¼ mark height (16 units on the 64 mark); min sizes:
+  mark 16px, horizontal lockup 120px wide.
+- Don'ts: no stretch/rotate/recolour, no gradients/glows, gold text
+  never on light bg, navy mark never on navy bg (use reversed mark).
 
 ## Layout
 - **Header:** one slim sticky bar (64px). Navy-square + gold “ logo,

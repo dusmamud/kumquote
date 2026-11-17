@@ -109,8 +109,9 @@ const related = await relatedQuotes(entry, 3);
           document.execCommand('copy');
           ta.remove();
         }
-        btn.textContent = 'Copied';
-        setTimeout(() => { btn.textContent = original; }, 2000);
+        btn.textContent = '✓ Copied';
+        btn.classList.add('copied-pop');
+        setTimeout(() => { btn.textContent = original; btn.classList.remove('copied-pop'); }, 2000);
       });
     });
   </script>

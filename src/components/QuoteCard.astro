@@ -11,8 +11,9 @@ const { text, author, category } = entry.data;
 ---
 <!-- Poster card: white surface, gold top rule, Playfair Bold quote,
      author in letterspaced caps (research: attribution in a quiet
-     sans, small, caps). No shadow on resting cards. -->
-<article class="flex flex-col rounded-xl border border-border bg-surface p-5 dark:border-border-dark dark:bg-surface-dark">
+     sans, small, caps). No shadow on resting cards; hover lift is in
+     global.css (.poster-card, motion v3). -->
+<article data-reveal class="poster-card flex flex-col rounded-xl border border-border bg-surface p-5 dark:border-border-dark dark:bg-surface-dark">
   <span aria-hidden="true" class="h-1 w-10 rounded-full bg-gold"></span>
   <blockquote class="mt-4 font-display text-display-card font-bold tracking-[-0.01em] text-ink dark:text-text-dark">
     <a href={quoteUrl(entry)} class="transition-colors duration-150 hover:text-brand dark:hover:text-brand-dark">“{text}”</a>

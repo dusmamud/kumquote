@@ -14,11 +14,13 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
 
   <div class="mt-8 rounded-2xl bg-ink px-6 py-10 text-cream sm:px-10 sm:py-12 dark:border dark:border-border-dark dark:bg-surface-dark">
     <span aria-hidden="true" class="block h-1 w-12 rounded-full bg-gold"></span>
-    <blockquote id="random-text" class="mt-5 font-display text-display-quote font-bold tracking-[-0.01em]">Loading a quote…</blockquote>
-    <p class="mt-5 text-lg">
-      — <a id="random-author" href="/quotes/" class="font-semibold text-gold-light underline decoration-gold-light/50 underline-offset-4">…</a>
-      <span id="random-category" class="ms-2 text-[15px] capitalize text-cream/70"></span>
-    </p>
+    <div id="random-quote" class="quote-swap">
+      <blockquote id="random-text" class="mt-5 font-display text-display-quote font-bold tracking-[-0.01em]">Loading a quote…</blockquote>
+      <p class="mt-5 text-lg">
+        — <a id="random-author" href="/quotes/" class="font-semibold text-gold-light underline decoration-gold-light/50 underline-offset-4">…</a>
+        <span id="random-category" class="ms-2 text-[15px] capitalize text-cream/70"></span>
+      </p>
+    </div>
     <p class="mt-8 flex flex-wrap gap-3">
       <button
         type="button"
@@ -44,6 +46,19 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
     let quotes = [];
     let lastIndex = -1;
 
+    const panel = document.getElementById('random-quote');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function show(q) {
+      if (textEl) textEl.textContent = `“${q.text}”`;
+      if (authorEl) {
+        authorEl.textContent = q.author;
+        authorEl.href = `/author/${q.authorSlug}/`;
+      }
+      if (categoryEl) categoryEl.textContent = q.category;
+      if (linkEl) linkEl.href = q.url;
+    }
+
     function pick() {
       if (quotes.length === 0) return;
       let i = Math.floor(Math.random() * quotes.length);
@@ -52,13 +67,15 @@ const site = Astro.site?.toString() ?? 'https://kumquote.pages.dev/';
       }
       lastIndex = i;
       const q = quotes[i];
-      if (textEl) textEl.textContent = `“${q.text}”`;
-      if (authorEl) {
-        authorEl.textContent = q.author;
-        authorEl.href = `/author/${q.authorSlug}/`;
+      if (!panel || reduceMotion) {
+        show(q);
+        return;
       }
-      if (categoryEl) categoryEl.textContent = q.category;
-      if (linkEl) linkEl.href = q.url;
+      panel.classList.add('is-swapping');
+      setTimeout(() => {
+        show(q);
+        panel.classList.remove('is-swapping');
+      }, 200);
     }
 
     fetch('/quotes-data.json')
