@@ -247,11 +247,12 @@ article h3[id] {
     opacity: 0;
     transform: translateY(6px);
   }
-  /* Copy button pop on "Copied". */
-  .copied-pop {
-    animation: copy-pop 250ms var(--ease-out);
+  /* Button pop on "Copied" / favorite toggle. */
+  .copied-pop,
+  .fav-pop {
+    animation: pop 250ms var(--ease-out);
   }
-  @keyframes copy-pop {
+  @keyframes pop {
     0% {
       transform: scale(1);
     }
@@ -261,6 +262,15 @@ article h3[id] {
     100% {
       transform: scale(1);
     }
+  }
+  /* Favorite heart: outline by default, gold fill when saved. */
+  .fav-btn svg {
+    fill: none;
+    stroke: currentColor;
+  }
+  .fav-btn[aria-pressed="true"] svg {
+    fill: var(--color-gold);
+    stroke: var(--color-gold);
   }
 }
 
@@ -344,6 +354,9 @@ a:hover .link-underline {
 }
 .mobile-menu[data-open="true"] .menu-link:nth-child(7) {
   transition-delay: 420ms;
+}
+.mobile-menu[data-open="true"] .menu-link:nth-child(8) {
+  transition-delay: 480ms;
 }
 .menu-bar {
   transition:

@@ -11,6 +11,7 @@ const categories = '/categories/';
 const tags = '/tags/';
 const random = '/random/';
 const search = '/search/';
+const favorites = '/favorites/';
 const rss = '/rss.xml';
 const isCurrent = (href: string) =>
   currentPath === href ||
@@ -65,6 +66,10 @@ const themeBtnClass = 'hidden min-h-[44px] items-center gap-1.5 text-[15px] font
         <a href={search} aria-current={isCurrent(search) ? 'page' : undefined} class="hidden min-h-[44px] items-center rounded-lg bg-ink px-4 text-[15px] font-semibold text-cream transition-opacity duration-150 hover:opacity-90 dark:bg-brand-dark dark:text-paper-dark sm:flex">
           Search
         </a>
+        <a href={favorites} aria-current={isCurrent(favorites) ? 'page' : undefined} aria-label="My favorite quotes" class="relative hidden min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-muted transition-colors duration-150 hover:text-ink dark:text-text-dark-3 dark:hover:text-brand-dark lg:flex">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg>
+          <span id="fav-count" class="absolute -top-0.5 -right-0.5 hidden min-h-[20px] min-w-[20px] items-center justify-center rounded-full bg-gold px-1 text-[12px] font-bold text-ink">0</span>
+        </a>
         <button
           type="button"
           id="menu-toggle"
@@ -118,6 +123,7 @@ const themeBtnClass = 'hidden min-h-[44px] items-center gap-1.5 text-[15px] font
     <a href={authors} aria-current={isCurrent(authors) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Authors</a>
     <a href={categories} aria-current={isCurrent(categories) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Categories</a>
     <a href={tags} aria-current={isCurrent(tags) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Tags</a>
+    <a href={favorites} aria-current={isCurrent(favorites) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Favorites</a>
     <a href={random} aria-current={isCurrent(random) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Random</a>
     <a href={search} aria-current={isCurrent(search) ? 'page' : undefined} class="menu-link flex min-h-[64px] items-center border-b border-border font-display text-[32px] font-bold text-ink dark:border-border-dark dark:text-text-dark">Search</a>
   </nav>

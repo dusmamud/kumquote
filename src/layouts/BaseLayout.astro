@@ -82,9 +82,11 @@ const {
       <slot />
     </main>
     <Footer />
-    <!-- Scroll reveals (motion v3): bundled client module, browser only. -->
+    <!-- Client scripts (motion v3 + favorites): bundled modules,
+         browser only. -->
     <script>
       import '../scripts/reveal.ts';
+      import '../scripts/favorites.ts';
     </script>
   </body>
 </html>
