@@ -22,6 +22,13 @@ const title = `“${quoteTitle(entry)}” — ${author} | KumQuote`;
 const shareText = `“${text}” — ${author}`;
 const xShare = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(canonical)}`;
 const waShare = `https://wa.me/?text=${encodeURIComponent(`${shareText} ${canonical}`)}`;
+const fbShare = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonical)}`;
+const tgShare = `https://t.me/share/url?url=${encodeURIComponent(canonical)}&text=${encodeURIComponent(shareText)}`;
+const emailShare = `mailto:?subject=${encodeURIComponent(`“${quoteTitle(entry)}” — KumQuote`)}&body=${encodeURIComponent(`${shareText}\n\n${canonical}`)}`;
+/* Download poster: the per-quote OG card (1200x630, generated at
+   deploy); falls back to the generic card when a quote has none yet. */
+const ogPath = entry.data.ogImage ?? '/og.png';
+const ogDownloadUrl = `${site}${ogPath.slice(1)}`;
 const related = await relatedQuotes(entry, 3);
 const { prev, next } = await quoteNeighbors(entry);
 ---
@@ -61,8 +68,13 @@ const { prev, next } = await quoteNeighbors(entry);
 
     <div class="mt-8 flex flex-wrap justify-center gap-3">
       <CopyButton text={text} />
+      <button type="button" id="native-share" data-share-title={title} data-share-text={shareText} data-share-url={canonical} class="hidden min-h-[44px] items-center rounded-lg border border-border px-4 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Share…</button>
       <a href={xShare} target="_blank" rel="noopener noreferrer" class="flex min-h-[44px] items-center rounded-lg border border-border px-4 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Share on X</a>
       <a href={waShare} target="_blank" rel="noopener noreferrer" class="flex min-h-[44px] items-center rounded-lg border border-border px-4 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Share on WhatsApp</a>
+      <a href={fbShare} target="_blank" rel="noopener noreferrer" class="flex min-h-[44px] items-center rounded-lg border border-border px-4 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Share on Facebook</a>
+      <a href={tgShare} target="_blank" rel="noopener noreferrer" class="flex min-h-[44px] items-center rounded-lg border border-border px-4 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Share on Telegram</a>
+      <a href={emailShare} class="flex min-h-[44px] items-center rounded-lg border border-border px-4 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Share by email</a>
+      <a href={ogDownloadUrl} download={`kumquote-${quoteSlug(entry)}.png`} class="flex min-h-[44px] items-center rounded-lg border border-border px-4 text-[15px] font-medium transition-colors duration-150 hover:border-brand hover:text-brand dark:border-border-dark-2 dark:hover:border-brand-dark dark:hover:text-brand-dark">Download poster</a>
     </div>
 
     <div class="prose prose-stone mt-12 max-w-none text-left dark:prose-invert prose-headings:font-display prose-a:text-brand dark:prose-a:text-brand-dark">
@@ -147,5 +159,26 @@ const { prev, next } = await quoteNeighbors(entry);
       const url = event.key === 'ArrowLeft' ? nav?.getAttribute('data-prev-url') : nav?.getAttribute('data-next-url');
       if (url) window.location.href = url;
     });
+  </script>
+
+  <script>
+    // Native share sheet (Web Share API): only shown where the
+    // browser supports it — the button starts hidden.
+    const shareBtn = document.getElementById('native-share');
+    if (shareBtn && 'share' in navigator) {
+      shareBtn.classList.remove('hidden');
+      shareBtn.classList.add('flex');
+      shareBtn.addEventListener('click', async () => {
+        try {
+          await navigator.share({
+            title: shareBtn.getAttribute('data-share-title') ?? '',
+            text: shareBtn.getAttribute('data-share-text') ?? '',
+            url: shareBtn.getAttribute('data-share-url') ?? '',
+          });
+        } catch {
+          /* user cancelled the share sheet */
+        }
+      });
+    }
   </script>
 </BaseLayout>
