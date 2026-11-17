@@ -46,6 +46,8 @@ const {
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbf8f1" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1526" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preload" as="font" type="font/woff2" crossorigin href={playfairLatin700} />
     <!-- Theme before paint: System / Light / Dark.
          Stored choice wins; otherwise the OS choice (System).
@@ -87,6 +89,17 @@ const {
     <script>
       import '../scripts/reveal.ts';
       import '../scripts/favorites.ts';
+    </script>
+    <!-- Service worker: installable PWA. Registration only; the
+         worker itself is public/sw.js. -->
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {
+            /* offline support unavailable */
+          });
+        });
+      }
     </script>
   </body>
 </html>
